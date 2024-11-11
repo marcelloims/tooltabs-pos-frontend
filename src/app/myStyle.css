@@ -1,0 +1,50 @@
+@font-face {
+    font-family: "Futura";
+    src: url("../../public/static/assets/font/Futura Bold font.ttf");
+}
+
+body {
+    font-family: "Futura";
+    color: #0a2d3d;
+}
+
+.container-login {
+    background-image: url("../../public/static/assets/images/team-work.jpg");
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.card-custom {
+    margin-bottom: 1.875rem;
+    height: 100%;
+    width: 100%;
+    background: rgba(210, 231, 249, 0.5);
+    transition: all 0.5s ease-in-out;
+    position: relative;
+    border: 0px solid transparent;
+    border-radius: 1.25rem;
+    box-shadow: 0px 12px 23px 0px rgba(160, 44, 250, 0.04);
+    height: calc(100% - 30px);
+}
+
+.validation-custom {
+    color: #921010;
+    text-align: right;
+    margin-bottom: 0px;
+    position: relative;
+    margin-top: -30px;
+    margin-right: 20px;
+}
+
+[data-sidebar-style="full"][data-layout="vertical"]
+    .menu-toggle
+    .deznav
+    .metismenu
+    > li.mm-active
+    > a {
+    background: #ccd7ff !important;
+    border-radius: 1.25rem;
+    color: #fff;
+}
