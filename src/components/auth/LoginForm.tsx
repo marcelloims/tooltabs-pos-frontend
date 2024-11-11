@@ -34,8 +34,8 @@ const LoginForm = () => {
                 );
                 setEmail("");
                 setPassword("");
-                window.location.reload(); // for reading token in web-browser
                 router.push("/main/dashboard");
+                location.replace("/main/dashboard"); //1 refresh web-browser for get cookies
             })
             .catch((error) => {
                 if (error) {

@@ -1,20 +1,10 @@
+import OfficePage from "@/pages/main/office/page";
 import React from "react";
 
 const Office = () => {
     return (
-        <div className="content-body">
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div className="card">
-                            <div className="card-header">
-                                <strong>Welcome!</strong>
-                            </div>
-                            <div className="card-body">Office Page</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div>
+            <OfficePage />
         </div>
     );
 };

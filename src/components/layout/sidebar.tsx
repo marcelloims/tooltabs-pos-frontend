@@ -100,7 +100,7 @@ const Sidebar = () => {
                                 menu.name === "Go to Configuration" ? (
                                     <li key={i}>
                                         <Link
-                                            href=""
+                                            href="#"
                                             className="ai-icon"
                                             aria-expanded="false"
                                             onClick={changeMenu}

@@ -4,7 +4,7 @@ import React from "react";
 
 const Footer = () => {
     return (
-        <>
+        <div className="fixed" style={{ marginTop: "100%" }}>
             <div className="footer mt-5">
                 <div className="copyright">
                     <p>
@@ -17,7 +17,7 @@ const Footer = () => {
                     </p>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

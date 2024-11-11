@@ -42,7 +42,7 @@ const Navbar = () => {
     return (
         <>
             <div className="nav-header">
-                <a href="index.html" className="brand-logo">
+                <a href="/main/dashboard" className="brand-logo">
                     <img
                         className="logo-abbr"
                         src="/static/assets/images/logo-tooltabs-icon.png"

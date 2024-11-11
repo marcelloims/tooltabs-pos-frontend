@@ -30,14 +30,14 @@ export default function MainLayout({
     return (
         <html lang="en">
             <body suppressHydrationWarning={true}>
-                <main>
+                <div id="main-wrapper">
                     <Header />
                     <Navbar />
                     <Sidebar />
                     {children}
                     <Footer />
                     <MyScript />
-                </main>
+                </div>
             </body>
         </html>
     );
