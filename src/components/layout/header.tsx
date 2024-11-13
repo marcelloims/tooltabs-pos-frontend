@@ -4,7 +4,7 @@ import React from "react";
 const Header = () => {
     return (
         <>
-            <meta charSet="UTF-8" />
+            <meta charSet="UTF-8" name="referrer" content="origin" />
             <link
                 rel="icon"
                 href="/static/assets/images/logo-tooltabs-icon.png"
