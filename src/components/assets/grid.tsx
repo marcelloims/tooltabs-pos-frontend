@@ -1,6 +1,11 @@
 "use client";
 import axios from "@/lib/axios";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+    faEdit,
+    faTrash,
+    faArrowUpLong,
+    faArrowDownLong,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -18,7 +23,19 @@ interface Response {
 }
 
 interface Entity {
+    current_page: number;
     data: [];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: [];
+    next_page_url: string;
+    path: string;
+    per_page: number;
+    prev_page_url: string;
+    to: number;
+    total: number;
 }
 
 const Gird = (props: propsType) => {
@@ -28,8 +45,9 @@ const Gird = (props: propsType) => {
     // State
     const [loading, setLoading] = useState(false);
     const [fetchResponse, setFetchResponse] = useState<Response>();
-    const [perPage, setPerPage] = useState(10);
+    const [perPage, setPerPage] = useState(2);
     const [search, setSearch] = useState("");
+    const [sort, setSort] = useState([]);
 
     // Props
     const { urlFetch, columns } = props;
@@ -46,29 +64,33 @@ const Gird = (props: propsType) => {
     formatColumnTable.unshift("No");
     formatColumnTable.push("Action");
 
-    const fetchData = async (perPage: any, search: any, columns: any) => {
+    const fetchData = async (
+        perPage: any,
+        search: any,
+        columns: any,
+        paging?: any,
+        sorting?: any
+    ) => {
         try {
             setLoading(true);
 
-            const dataResponse = await axios.get(urlFetch, {
+            const dataResponse = await axios.get(!paging ? urlFetch : paging, {
                 params: {
                     perPage,
                     search,
                     columns,
+                    sorting,
                 },
             });
 
-            console.log("first", dataResponse.data);
-            setFetchResponse(dataResponse.data);
             setLoading(false);
+            setFetchResponse(dataResponse.data);
         } catch (error) {
             console.log(error);
         }
     };
 
-    useEffect(() => {
-        console.log(fetchResponse, "test");
-    }, [fetchResponse]);
+    useEffect(() => {}, [fetchResponse]);
 
     useEffect(() => {
         fetchData(perPage, search, columns);
@@ -99,7 +121,7 @@ const Gird = (props: propsType) => {
                                         );
                                     }}
                                 >
-                                    <option value="10">10</option>
+                                    <option value="2">2</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
@@ -136,8 +158,78 @@ const Gird = (props: propsType) => {
                                     <tr className="text-center">
                                         {formatColumnTable.map(
                                             (column: any, i: any) => (
-                                                <th scope="col" key={i}>
+                                                <th
+                                                    scope="col"
+                                                    key={i}
+                                                    className="text-nowrap"
+                                                    onClick={() => {
+                                                        if (!sort) {
+                                                            let dataSort: any =
+                                                                ["asc", column];
+                                                            setSort(dataSort);
+                                                            fetchData(
+                                                                perPage,
+                                                                search,
+                                                                columns,
+                                                                null,
+                                                                dataSort
+                                                            );
+                                                        }
+
+                                                        if (sort[0] === "asc") {
+                                                            let dataSort: any =
+                                                                [
+                                                                    "desc",
+                                                                    column,
+                                                                ];
+                                                            setSort(dataSort);
+                                                            fetchData(
+                                                                perPage,
+                                                                search,
+                                                                columns,
+                                                                null,
+                                                                dataSort
+                                                            );
+                                                        } else {
+                                                            let dataSort: any =
+                                                                ["asc", column];
+                                                            setSort(dataSort);
+                                                            fetchData(
+                                                                perPage,
+                                                                search,
+                                                                columns,
+                                                                null,
+                                                                dataSort
+                                                            );
+                                                        }
+                                                    }}
+                                                >
                                                     {column}
+                                                    {" " + sort.length}
+                                                    {column != "No" &&
+                                                        column != "Action" &&
+                                                        sort.length != 0 &&
+                                                        sort[0] === "asc" &&
+                                                        sort[1] === column && (
+                                                            <FontAwesomeIcon
+                                                                icon={
+                                                                    faArrowUpLong
+                                                                }
+                                                                className="mr-1"
+                                                            />
+                                                        )}
+                                                    {column != "No" &&
+                                                        column != "Action" &&
+                                                        sort.length != 0 &&
+                                                        sort[0] === "desc" &&
+                                                        sort[1] === column && (
+                                                            <FontAwesomeIcon
+                                                                icon={
+                                                                    faArrowDownLong
+                                                                }
+                                                                className="mr-1"
+                                                            />
+                                                        )}
                                                 </th>
                                             )
                                         )}
@@ -169,6 +261,44 @@ const Gird = (props: propsType) => {
                             </table>
                         )}
                     </div>
+                    <nav className="mt-3">
+                        <div style={{ float: "right" }}>
+                            {fetchResponse?.response.to} of{" "}
+                            {fetchResponse?.response.total} entries
+                        </div>
+                        <div
+                            className="pagination pagination-gutter pagination-primary no-bg"
+                            style={{ float: "right" }}
+                        >
+                            {fetchResponse?.response.links.map(
+                                (per_page: any, id: number) => (
+                                    <li
+                                        key={id}
+                                        className={
+                                            per_page.active === true
+                                                ? "page-item active"
+                                                : "page-item"
+                                        }
+                                    >
+                                        <a
+                                            className="page-link"
+                                            onClick={() => {
+                                                fetchData(
+                                                    perPage,
+                                                    search,
+                                                    columns,
+                                                    per_page.url
+                                                );
+                                            }}
+                                            // href={per_page.url}
+                                        >
+                                            {per_page.label}
+                                        </a>
+                                    </li>
+                                )
+                            )}
+                        </div>
+                    </nav>
                 </div>
             </div>
         </div>
