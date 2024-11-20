@@ -48,6 +48,7 @@ const Gird = (props: propsType) => {
     const [perPage, setPerPage] = useState(2);
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState([]);
+    const [pagination, setPagination] = useState("");
 
     // Props
     const { urlFetch, columns } = props;
@@ -171,7 +172,7 @@ const Gird = (props: propsType) => {
                                                                 perPage,
                                                                 search,
                                                                 columns,
-                                                                null,
+                                                                pagination,
                                                                 dataSort
                                                             );
                                                         }
@@ -187,7 +188,7 @@ const Gird = (props: propsType) => {
                                                                 perPage,
                                                                 search,
                                                                 columns,
-                                                                null,
+                                                                pagination,
                                                                 dataSort
                                                             );
                                                         } else {
@@ -198,14 +199,13 @@ const Gird = (props: propsType) => {
                                                                 perPage,
                                                                 search,
                                                                 columns,
-                                                                null,
+                                                                pagination,
                                                                 dataSort
                                                             );
                                                         }
                                                     }}
                                                 >
-                                                    {column}
-                                                    {" " + sort.length}
+                                                    {column}{" "}
                                                     {column != "No" &&
                                                         column != "Action" &&
                                                         sort.length != 0 &&
@@ -283,14 +283,15 @@ const Gird = (props: propsType) => {
                                         <a
                                             className="page-link"
                                             onClick={() => {
+                                                setPagination(per_page.url);
                                                 fetchData(
                                                     perPage,
                                                     search,
                                                     columns,
-                                                    per_page.url
+                                                    per_page.url,
+                                                    sort
                                                 );
                                             }}
-                                            // href={per_page.url}
                                         >
                                             {per_page.label}
                                         </a>
