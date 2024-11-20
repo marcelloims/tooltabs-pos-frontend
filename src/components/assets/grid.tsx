@@ -80,6 +80,7 @@ const Gird = (props: propsType) => {
                     perPage,
                     search,
                     columns,
+                    pagination,
                     sorting,
                 },
             });
@@ -144,7 +145,9 @@ const Gird = (props: propsType) => {
                                         fetchData(
                                             perPage,
                                             event.target.value,
-                                            columns
+                                            columns,
+                                            pagination,
+                                            sort
                                         );
                                     }}
                                     value={search}
