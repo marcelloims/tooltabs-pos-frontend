@@ -2547,7 +2547,7 @@ pre code {
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #495057;
+    color: #0a2d3d; /*#495057 orginal color*/
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid #f0f1f5;
@@ -2565,10 +2565,10 @@ pre code {
 }
 .form-control:-moz-focusring {
     color: transparent;
-    text-shadow: 0 0 0 #495057;
+    text-shadow: 0 0 0 #0a2d3d;
 }
 .form-control:focus {
-    color: #495057;
+    color: #0a2d3d;
     background-color: #fff;
     border-color: #315cf0;
     outline: 0;
@@ -17346,7 +17346,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     .metismenu
     > li.mm-active
     > a {
-    background: #0b2a97;
+    background: #d8e0fc;
     border-radius: 1.25rem;
     color: #fff;
 }
@@ -17664,7 +17664,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
         .metismenu
         > li.mm-active
         > a {
-        background: #0b2a97;
+        background: #d8e0fc;
         color: #fff;
         border-radius: 1.25rem;
     }
@@ -17680,7 +17680,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
         .metismenu
         > li:hover
         > a {
-        background: #0b2a97;
+        background: #d8e0fc;
         color: #fff;
         border-radius: 1.25rem;
         position: unset;
@@ -18249,7 +18249,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
         left: 0;
         top: 50%;
         transform: translatey(-50%);
-        background: #0b2a97;
+        background: #d8e0fc;
         border-radius: 0 1.25rem 1.25rem 0;
         -webkit-transition: all 0.5s;
         -ms-transition: all 0.5s;

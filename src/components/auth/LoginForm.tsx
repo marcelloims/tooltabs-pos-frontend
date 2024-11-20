@@ -6,7 +6,6 @@ import axios from "../../lib/axios";
 import logo from "../../../public/static/assets/images/logo-tooltabs-circle.png";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
-import Router from "next/router";
 
 const LoginForm = () => {
     // For routing
@@ -32,8 +31,11 @@ const LoginForm = () => {
                     "department_per_position_id",
                     response.data.response.user.department_per_position_id
                 );
+                setCookie("email", response.data.response.user.email);
+
                 setEmail("");
                 setPassword("");
+
                 router.push("/main/dashboard");
                 location.replace("/main/dashboard"); //1 refresh web-browser for get cookies
             })
