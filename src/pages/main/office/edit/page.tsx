@@ -7,15 +7,23 @@ import React, { SyntheticEvent, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-const CreatePage = () => {
+type propsType = {
+    officeId: string;
+};
+
+const EditPage = (props: propsType) => {
     // for route
     const router = useRouter();
     const pathName = usePathname();
+
+    // destructuring props
+    const { officeId } = props;
 
     // Satup Title Per-Page
     let pageTitle = String(pathName).split("/");
 
     // this state
+    const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [code, setCode] = useState("");
     const [email, setEmail] = useState("");
@@ -23,11 +31,28 @@ const CreatePage = () => {
     const [address, setAddress] = useState("");
     const userEmail = getCookie("email");
 
+    // Function
+    const fetchEdit = async () => {
+        try {
+            const dataResponse = await axios.get(`/office/edit/${officeId}`);
+            setId(dataResponse.data.response[0].id);
+            setCode(dataResponse.data.response[0].code);
+            setName(dataResponse.data.response[0].name);
+            setEmail(dataResponse.data.response[0].email);
+            setPhone(dataResponse.data.response[0].phone);
+            setAddress(dataResponse.data.response[0].address);
+
+            // setFetchResponse(dataResponse.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
-
         await axios
-            .post("/office/store", {
+            .put("/office/update", {
+                id,
                 name,
                 code,
                 email,
@@ -51,7 +76,13 @@ const CreatePage = () => {
             });
     };
 
+    // Hook
+    useEffect(() => {
+        fetchEdit();
+    }, []);
+
     useEffect(() => {}, [name, code, email, phone, address]);
+
     return (
         <div className="content-body">
             <div className="container-fluid">
@@ -59,7 +90,7 @@ const CreatePage = () => {
                     <div className="col-lg-12">
                         <div className="card">
                             <div className="card-header">
-                                <strong>Form Add Office</strong>
+                                <strong>Form Edit Office</strong>
                                 <BackButton />
                             </div>
                             <div className="card-body">
@@ -67,6 +98,18 @@ const CreatePage = () => {
                                     <Form onSubmit={handleSubmit}>
                                         <div className="form-row">
                                             <Form.Group className="form-group col-md-6">
+                                                <Form.Control
+                                                    type="hidden"
+                                                    className="form-control"
+                                                    placeholder="Input name office"
+                                                    style={{ color: "#0a2d3d" }}
+                                                    value={id}
+                                                    onChange={(event) =>
+                                                        setName(
+                                                            event.target.value
+                                                        )
+                                                    }
+                                                />
                                                 <Form.Label>Name</Form.Label>
                                                 <Form.Control
                                                     type="text"
@@ -161,4 +204,4 @@ const CreatePage = () => {
     );
 };
 
-export default CreatePage;
+export default EditPage;

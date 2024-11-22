@@ -14,7 +14,7 @@ const AddButton = (props: propsType) => {
     const { urlRoute } = props;
 
     const handleClick = () => {
-        router.push(urlRoute);
+        router.push(urlRoute + "create");
     };
 
     return (
