@@ -5,12 +5,13 @@ import React, { use, useEffect, useState } from "react";
 
 const OfficePage = () => {
     // State
-    const [addHandlerClick, setAddHandlerClick] = useState("");
+    const [handlerClick, setAddHandlerClick] = useState("");
     const [columns, setColumns] = useState(["code", "name", "email", "phone"]);
     const urlFetch = "/office/fetch";
+    const urlDelete = "/office/delete/";
 
     useEffect(() => {
-        setAddHandlerClick("/main/office/create");
+        setAddHandlerClick("/main/office/");
     });
 
     return (
@@ -23,8 +24,13 @@ const OfficePage = () => {
                                 <strong>Welcome!</strong>
                             </div>
                             <div className="card-body">
-                                <AddButton urlRoute={addHandlerClick} />
-                                <Gird urlFetch={urlFetch} columns={columns} />
+                                <AddButton urlRoute={handlerClick} />
+                                <Gird
+                                    urlFetch={urlFetch}
+                                    urlDelete={urlDelete}
+                                    columns={columns}
+                                    urlRoute={handlerClick}
+                                />
                             </div>
                         </div>
                     </div>

@@ -7,13 +7,16 @@ import {
     faArrowDownLong,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import LoaderTreeCircles from "./loaderTreeCircles";
+import Swal from "sweetalert2";
 
 type propsType = {
     urlFetch: string;
+    urlDelete: string;
     columns: any;
+    urlRoute: string;
 };
 
 interface Response {
@@ -41,17 +44,21 @@ interface Entity {
 const Gird = (props: propsType) => {
     // for route
     const router = useRouter();
+    const pathName = usePathname();
 
     // State
     const [loading, setLoading] = useState(false);
     const [fetchResponse, setFetchResponse] = useState<Response>();
-    const [perPage, setPerPage] = useState(2);
+    const [perPage, setPerPage] = useState(10);
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState([]);
     const [pagination, setPagination] = useState("");
 
+    // Satup Title Per-Page
+    let pageTitle = String(pathName).split("/");
+
     // Props
-    const { urlFetch, columns } = props;
+    const { urlFetch, urlDelete, columns, urlRoute } = props;
 
     // Format Font UpperCase
     let formatColumnTable: string[] = columns.map((column: any) => {
@@ -92,6 +99,55 @@ const Gird = (props: propsType) => {
         }
     };
 
+    const handlerDelete = async (dataId: any) => {
+        const swalWithBootstrapButtons = await Swal.mixin({
+            customClass: {
+                cancelButton: "btn btn-danger",
+                confirmButton: "btn btn-success",
+            },
+            buttonsStyling: false,
+        });
+        swalWithBootstrapButtons
+            .fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true,
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    axios
+                        .delete(urlDelete + dataId)
+                        .then((response) => {
+                            Swal.fire({
+                                title: "Data " + pageTitle[2],
+                                text: response.data.message,
+                                icon: response.data.status,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    fetchData(perPage, search, columns);
+                                }
+                            });
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Cancelled",
+                        text: "Your file is safe!",
+                        icon: "error",
+                    });
+                }
+            });
+    };
+
     useEffect(() => {}, [fetchResponse]);
 
     useEffect(() => {
@@ -123,7 +179,7 @@ const Gird = (props: propsType) => {
                                         );
                                     }}
                                 >
-                                    <option value="2">2</option>
+                                    <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
@@ -142,11 +198,12 @@ const Gird = (props: propsType) => {
                                     placeholder="Keyword"
                                     onChange={(event: any) => {
                                         setSearch(event.target.value);
+
                                         fetchData(
                                             perPage,
                                             event.target.value,
                                             columns,
-                                            pagination,
+                                            null,
                                             sort
                                         );
                                     }}
@@ -251,10 +308,22 @@ const Gird = (props: propsType) => {
                                                     <FontAwesomeIcon
                                                         icon={faEdit}
                                                         className="btn btn-sm btn-warning mr-1"
+                                                        onClick={() => {
+                                                            router.push(
+                                                                urlRoute +
+                                                                    "edit/" +
+                                                                    data.id
+                                                            );
+                                                        }}
                                                     />
                                                     <FontAwesomeIcon
                                                         icon={faTrash}
                                                         className="btn btn-sm btn-danger ml-1"
+                                                        onClick={() => {
+                                                            handlerDelete(
+                                                                data.id
+                                                            );
+                                                        }}
                                                     />
                                                 </td>
                                             </tr>
