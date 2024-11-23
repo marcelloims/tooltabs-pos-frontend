@@ -13,9 +13,6 @@ export default function Home() {
         if (!token) {
             router.push("/");
         }
-        // else {
-        //     router.push("/main/dashboard");
-        // }
     }, []);
     return (
         <div>

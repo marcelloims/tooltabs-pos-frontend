@@ -2874,6 +2874,7 @@ textarea.form-control.is-valid {
 .was-validated .form-control:invalid,
 .form-control.is-invalid {
     border-color: #921010;
+    border-width: 2px;
     padding-right: calc(1.5em + 0.75rem);
     background-image: url("../images/is-invalid.png");
     background-repeat: no-repeat;
