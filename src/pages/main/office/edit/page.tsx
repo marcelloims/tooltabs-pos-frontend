@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import Swal from "sweetalert2";
+import "../../../../app/myStyle.css";
 
 type propsType = {
     officeId: string;
@@ -29,6 +30,11 @@ const EditPage = (props: propsType) => {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
+    const [validateName, setValidateName] = useState("");
+    const [validateCode, setValidateCode] = useState("");
+    const [validateEmail, setValidateEmail] = useState("");
+    const [validatePhone, setValidatePhone] = useState("");
+    const [validateAddress, setValidateAddress] = useState("");
     const userEmail = getCookie("email");
 
     // Function
@@ -72,7 +78,11 @@ const EditPage = (props: propsType) => {
                 });
             })
             .catch((error) => {
-                console.log(error);
+                setValidateName(error.response.data.request.name);
+                setValidateCode(error.response.data.request.code);
+                setValidateEmail(error.response.data.request.email);
+                setValidatePhone(error.response.data.request.phone);
+                setValidateAddress(error.response.data.request.address);
             });
     };
 
@@ -111,9 +121,19 @@ const EditPage = (props: propsType) => {
                                                     }
                                                 />
                                                 <Form.Label>Name</Form.Label>
+                                                {validateName && (
+                                                    <p className="validation-custom">
+                                                        {validateName}
+                                                    </p>
+                                                )}
                                                 <Form.Control
                                                     type="text"
-                                                    className="form-control"
+                                                    className={
+                                                        "bg-text-custom " +
+                                                        (validateName
+                                                            ? "is-invalid"
+                                                            : "")
+                                                    }
                                                     placeholder="Input name office"
                                                     style={{ color: "#0a2d3d" }}
                                                     value={name}
@@ -126,9 +146,19 @@ const EditPage = (props: propsType) => {
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
                                                 <Form.Label>Code</Form.Label>
+                                                {validateCode && (
+                                                    <p className="validation-custom">
+                                                        {validateCode}
+                                                    </p>
+                                                )}
                                                 <Form.Control
                                                     type="text"
-                                                    className="form-control"
+                                                    className={
+                                                        "bg-text-custom " +
+                                                        (validateCode
+                                                            ? "is-invalid"
+                                                            : "")
+                                                    }
                                                     placeholder="Input code office"
                                                     style={{ color: "#0a2d3d" }}
                                                     value={code}
@@ -141,9 +171,19 @@ const EditPage = (props: propsType) => {
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
                                                 <Form.Label>Email</Form.Label>
+                                                {validateEmail && (
+                                                    <p className="validation-custom">
+                                                        {validateEmail}
+                                                    </p>
+                                                )}
                                                 <Form.Control
                                                     type="Email"
-                                                    className="form-control"
+                                                    className={
+                                                        "bg-text-custom " +
+                                                        (validateEmail
+                                                            ? "is-invalid"
+                                                            : "")
+                                                    }
                                                     placeholder="Input email office"
                                                     style={{ color: "#0a2d3d" }}
                                                     value={email}
@@ -158,9 +198,19 @@ const EditPage = (props: propsType) => {
                                                 <Form.Label>
                                                     Telphone
                                                 </Form.Label>
+                                                {validatePhone && (
+                                                    <p className="validation-custom">
+                                                        {validatePhone}
+                                                    </p>
+                                                )}
                                                 <Form.Control
                                                     type="text"
-                                                    className="form-control"
+                                                    className={
+                                                        "bg-text-custom " +
+                                                        (validatePhone
+                                                            ? "is-invalid"
+                                                            : "")
+                                                    }
                                                     placeholder="021xxx"
                                                     style={{ color: "#0a2d3d" }}
                                                     value={phone}
@@ -173,8 +223,18 @@ const EditPage = (props: propsType) => {
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
                                                 <Form.Label>Address</Form.Label>
+                                                {validateAddress && (
+                                                    <p className="validation-custom">
+                                                        {validateAddress}
+                                                    </p>
+                                                )}
                                                 <textarea
-                                                    className="form-control"
+                                                    className={
+                                                        "form-control bg-text-custom " +
+                                                        (validateAddress
+                                                            ? "is-invalid"
+                                                            : "")
+                                                    }
                                                     rows={4}
                                                     id="comment"
                                                     style={{ color: "#0a2d3d" }}
