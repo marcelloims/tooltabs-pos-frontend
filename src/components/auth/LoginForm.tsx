@@ -56,13 +56,7 @@ const LoginForm = () => {
             });
     };
 
-    useEffect(() => {}, [
-        email,
-        password,
-        validateEmail,
-        validatePassword,
-        userInvalid,
-    ]);
+    useEffect(() => {}, []);
 
     return (
         <Card className="card-custom mt-5">
