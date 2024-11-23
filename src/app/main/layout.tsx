@@ -22,8 +22,6 @@ export default function MainLayout({
 
         if (!token) {
             router.push("/");
-        } else {
-            router.push("/main/dashboard");
         }
     }, []);
 
