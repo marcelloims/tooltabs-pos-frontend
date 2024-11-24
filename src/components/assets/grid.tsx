@@ -5,6 +5,7 @@ import {
     faTrash,
     faArrowUpLong,
     faArrowDownLong,
+    faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useRouter } from "next/navigation";
@@ -299,12 +300,26 @@ const Gird = (props: propsType) => {
                                     {fetchResponse?.response.data.map(
                                         (data: any, i: number) => (
                                             <tr key={i}>
-                                                <td>{i + 1}</td>
+                                                <td className="text-center">
+                                                    {i + 1}
+                                                </td>
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
                                                 <td>{data.email}</td>
                                                 <td>{data.phone}</td>
-                                                <td className="text-nowrap">
+                                                <td className="text-nowrap text-center">
+                                                    <FontAwesomeIcon
+                                                        icon={faCircleInfo}
+                                                        className="btn btn-sm btn-info mr-1"
+                                                        onClick={() => {
+                                                            router.push(
+                                                                urlRoute +
+                                                                    "detail/" +
+                                                                    data.id
+                                                            );
+                                                        }}
+                                                    />
+
                                                     <FontAwesomeIcon
                                                         icon={faEdit}
                                                         className="btn btn-sm btn-warning mr-1"

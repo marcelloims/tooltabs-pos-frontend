@@ -1,12 +1,12 @@
-import EditPage from "@/pages/main/office/edit/page";
+import EditOfficePage from "@/pages/main/office/edit/page";
 import React from "react";
 
-const OfficeId = ({ params }: { params: { officeId: string } }) => {
+const EditOfficeId = ({ params }: { params: { officeId: string } }) => {
     return (
         <div>
-            <EditPage officeId={params.officeId} />
+            <EditOfficePage officeId={params.officeId} />
         </div>
     );
 };
 
-export default OfficeId;
+export default EditOfficeId;

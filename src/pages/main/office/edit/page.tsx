@@ -12,7 +12,7 @@ type propsType = {
     officeId: string;
 };
 
-const EditPage = (props: propsType) => {
+const EditOfficePage = (props: propsType) => {
     // for route
     const router = useRouter();
     const pathName = usePathname();
@@ -47,8 +47,6 @@ const EditPage = (props: propsType) => {
             setEmail(dataResponse.data.response[0].email);
             setPhone(dataResponse.data.response[0].phone);
             setAddress(dataResponse.data.response[0].address);
-
-            // setFetchResponse(dataResponse.data);
         } catch (error) {
             console.log(error);
         }
@@ -264,4 +262,4 @@ const EditPage = (props: propsType) => {
     );
 };
 
-export default EditPage;
+export default EditOfficePage;
