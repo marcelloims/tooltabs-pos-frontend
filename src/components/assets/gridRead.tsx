@@ -42,7 +42,7 @@ interface Entity {
     total: number;
 }
 
-const Gird = (props: propsType) => {
+const GridReadOnly = (props: propsType) => {
     // for route
     const router = useRouter();
     const pathName = usePathname();
@@ -98,55 +98,6 @@ const Gird = (props: propsType) => {
         } catch (error) {
             console.log(error);
         }
-    };
-
-    const handlerDelete = async (dataId: any) => {
-        const swalWithBootstrapButtons = await Swal.mixin({
-            customClass: {
-                cancelButton: "btn btn-danger",
-                confirmButton: "btn btn-success",
-            },
-            buttonsStyling: false,
-        });
-        swalWithBootstrapButtons
-            .fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Yes, delete it!",
-                cancelButtonText: "No, cancel!",
-                reverseButtons: true,
-            })
-            .then((result) => {
-                if (result.isConfirmed) {
-                    axios
-                        .delete(urlDelete + dataId)
-                        .then((response) => {
-                            Swal.fire({
-                                title: "Data " + pageTitle[2],
-                                text: response.data.message,
-                                icon: response.data.status,
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    fetchData(perPage, search, columns);
-                                }
-                            });
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire({
-                        title: "Cancelled",
-                        text: "Your file is safe!",
-                        icon: "error",
-                    });
-                }
-            });
     };
 
     useEffect(() => {}, [fetchResponse]);
@@ -319,27 +270,6 @@ const Gird = (props: propsType) => {
                                                             );
                                                         }}
                                                     />
-
-                                                    <FontAwesomeIcon
-                                                        icon={faEdit}
-                                                        className="btn btn-sm btn-warning mr-1"
-                                                        onClick={() => {
-                                                            router.push(
-                                                                urlRoute +
-                                                                    "edit/" +
-                                                                    data.id
-                                                            );
-                                                        }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faTrash}
-                                                        className="btn btn-sm btn-danger ml-1"
-                                                        onClick={() => {
-                                                            handlerDelete(
-                                                                data.id
-                                                            );
-                                                        }}
-                                                    />
                                                 </td>
                                             </tr>
                                         )
@@ -393,4 +323,4 @@ const Gird = (props: propsType) => {
     );
 };
 
-export default Gird;
+export default GridReadOnly;
