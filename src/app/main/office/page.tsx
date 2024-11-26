@@ -17,10 +17,8 @@ interface Entity {
     department_id: number;
     position_id: number;
     name: string;
-    added: number;
-    edited: number;
-    deleted: number;
-    viewed: number;
+    write: boolean;
+    read: boolean;
 }
 
 const Office = () => {
@@ -37,7 +35,9 @@ const Office = () => {
     };
 
     // Hook
-    useEffect(() => {}, [accessRole]);
+    useEffect(() => {
+        console.log(accessRole, "test");
+    }, [accessRole]);
 
     useEffect(() => {
         permissionPerMenu();
@@ -45,11 +45,11 @@ const Office = () => {
 
     return (
         <div>
-            {accessRole?.response.viewed === 1 ? (
-                <ReadOnlyPage />
-            ) : (
-                <OfficePage />
-            )}
+            {accessRole?.response.write == true &&
+                accessRole?.response.read == false && <OfficePage />}
+
+            {accessRole?.response.write == false &&
+                accessRole?.response.read == true && <ReadOnlyPage />}
         </div>
     );
 };
