@@ -1,10 +1,10 @@
-import CreateOfficePage from "@/pages/main/office/create/page";
+import CreatePage from "@/pages/main/postion/create/page";
 import React from "react";
 
 const Create = () => {
     return (
         <div>
-            <CreateOfficePage />
+            <CreatePage />
         </div>
     );
 };

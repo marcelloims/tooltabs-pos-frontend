@@ -1,7 +1,7 @@
 import React from "react";
 import { ThreeCircles } from "react-loader-spinner";
 
-const LoaderAudio = () => {
+const LoaderTreeCircles = () => {
     return (
         <div
             style={{
@@ -25,4 +25,4 @@ const LoaderAudio = () => {
     );
 };
 
-export default LoaderAudio;
+export default LoaderTreeCircles;
