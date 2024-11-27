@@ -35,9 +35,7 @@ const Office = () => {
     };
 
     // Hook
-    useEffect(() => {
-        console.log(accessRole, "test");
-    }, [accessRole]);
+    useEffect(() => {}, [accessRole]);
 
     useEffect(() => {
         permissionPerMenu();

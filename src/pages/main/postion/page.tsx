@@ -1,19 +1,18 @@
 "use client";
 import AddButton from "@/components/assets/addButton";
-import Gird from "@/components/assets/office/grid";
-import React, { use, useEffect, useState } from "react";
+import Gird from "@/components/assets/position/grid";
+import React, { useEffect, useState } from "react";
 
-const OfficePage = () => {
+const PositionPage = () => {
     // State
     const [handlerClick, setAddHandlerClick] = useState("");
-    const [columns, setColumns] = useState(["code", "name", "email", "phone"]);
-    const urlFetch = "/office/fetch";
-    const urlDelete = "/office/delete/";
+    const [columns, setColumns] = useState(["code", "name"]);
+    const urlFetch = "/position/fetch";
+    const urlDelete = "/position/delete/";
 
     useEffect(() => {
-        setAddHandlerClick("/main/office/");
+        setAddHandlerClick("/main/position/");
     });
-
     return (
         <div className="content-body">
             <div className="container-fluid">
@@ -21,7 +20,7 @@ const OfficePage = () => {
                     <div className="col-lg-12">
                         <div className="card">
                             <div className="card-header">
-                                <strong>Welcome! this is office page</strong>
+                                <strong>Welcome! this is position page</strong>
                             </div>
                             <div className="card-body">
                                 <AddButton urlRoute={handlerClick} />
@@ -40,4 +39,4 @@ const OfficePage = () => {
     );
 };
 
-export default OfficePage;
+export default PositionPage;

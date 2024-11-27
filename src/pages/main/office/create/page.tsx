@@ -8,7 +8,7 @@ import { Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "../../../../app/myStyle.css";
 
-const CreatePage = () => {
+const CreateOfficePage = () => {
     // for route
     const router = useRouter();
     const pathName = usePathname();
@@ -69,7 +69,7 @@ const CreatePage = () => {
                     <div className="col-lg-12">
                         <div className="card">
                             <div className="card-header">
-                                <strong>Form Add Office</strong>
+                                <strong>Form Add {pageTitle[2]}</strong>
                                 <BackButton />
                             </div>
                             <div className="card-body">
@@ -221,4 +221,4 @@ const CreatePage = () => {
     );
 };
 
-export default CreatePage;
+export default CreateOfficePage;

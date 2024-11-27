@@ -10,8 +10,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import LoaderTreeCircles from "./loaderTreeCircles";
 import Swal from "sweetalert2";
+import LoaderTreeCircles from "../loaderTreeCircles";
 
 type propsType = {
     urlFetch: string;
