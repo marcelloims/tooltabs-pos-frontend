@@ -48,3 +48,10 @@ body {
     border-radius: 1.25rem;
     color: #fff;
 }
+
+hr {
+    margin-top: 0rem !important;
+    margin-bottom: 0rem !important;
+    border: 0;
+    background: #0a2d3d !important;
+}

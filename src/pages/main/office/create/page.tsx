@@ -69,7 +69,7 @@ const CreateOfficePage = () => {
                     <div className="col-lg-12">
                         <div className="card">
                             <div className="card-header">
-                                <strong>Form Add {pageTitle[2]}</strong>
+                                <strong>Form add {pageTitle[2]}</strong>
                                 <BackButton />
                             </div>
                             <div className="card-body">

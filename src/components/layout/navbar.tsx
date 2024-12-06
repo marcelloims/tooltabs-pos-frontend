@@ -12,6 +12,7 @@ const Navbar = () => {
 
     // Satup Title Per-Page
     let pageTitle = String(pathName).split("/");
+    let splitPageTitle = pageTitle[2].split("_");
 
     const proceedLogout = async (e: SyntheticEvent) => {
         e.preventDefault();
@@ -72,8 +73,11 @@ const Navbar = () => {
                     <nav className="navbar navbar-expand">
                         <div className="collapse navbar-collapse justify-content-between">
                             <div className="header-left">
-                                <div className="dashboard_bar">
-                                    {pageTitle[2].toUpperCase()}
+                                <div className="dashboard_bar text-nowrap">
+                                    {splitPageTitle[0].toUpperCase() + " "}
+                                    {splitPageTitle[1] === undefined
+                                        ? ""
+                                        : splitPageTitle[1].toUpperCase()}
                                 </div>
                             </div>
                             <div
