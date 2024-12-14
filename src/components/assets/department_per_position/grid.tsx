@@ -10,8 +10,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import LoaderTreeCircles from "../loaderTreeCircles";
+import Swal from "sweetalert2";
 
 type propsType = {
     urlFetch: string;
@@ -70,6 +70,27 @@ const Gird = (props: propsType) => {
         return formatColumn;
     });
 
+    // Format column name
+    const formatColumnName = (column: any) => {
+        let data = column.toString();
+        let pageTitle = String(data).split("_");
+
+        let upperFirst = pageTitle[0].slice(0, 1).toUpperCase();
+        let lowerFirst = pageTitle[0].slice(1).toLowerCase();
+        let first = upperFirst + lowerFirst;
+
+        let upperSecond = pageTitle[1]?.slice(0, 1).toUpperCase();
+        let lowerSecond = pageTitle[1]?.slice(1).toLowerCase();
+        let second = upperSecond + lowerSecond ? upperSecond + lowerSecond : "";
+
+        let upperTrird = pageTitle[2]?.slice(0, 1).toUpperCase();
+        let lowerTrird = pageTitle[2]?.slice(1).toLowerCase();
+        let trird = upperTrird + lowerTrird ? upperTrird + lowerTrird : "";
+
+        let formatColumnName = first + " " + second + " " + trird;
+        return formatColumnName;
+    };
+
     formatColumnTable.unshift("No");
     formatColumnTable.push("Action");
 
@@ -124,7 +145,7 @@ const Gird = (props: propsType) => {
                         .delete(urlDelete + dataId)
                         .then((response) => {
                             Swal.fire({
-                                title: "Data " + pageTitle[2],
+                                title: "Data " + formatColumnName(pageTitle[2]),
                                 text: response.data.message,
                                 icon: response.data.status,
                             }).then((result) => {
@@ -159,7 +180,9 @@ const Gird = (props: propsType) => {
         <div className="table-responsive mt-3">
             <div className="card">
                 <div className="card-header">
-                    <h4 className="card-title">Data Office</h4>
+                    <h4 className="card-title">
+                        Data {formatColumnName(pageTitle[2])}
+                    </h4>
                 </div>
                 <div className="card-body">
                     <div className="table-responsive">
@@ -288,7 +311,7 @@ const Gird = (props: propsType) => {
                                                         }
                                                     }}
                                                 >
-                                                    {column}{" "}
+                                                    {formatColumnName(column)}{" "}
                                                     {column != "No" &&
                                                         column != "Action" &&
                                                         sort.length != 0 &&
@@ -325,23 +348,10 @@ const Gird = (props: propsType) => {
                                                 <td className="text-center">
                                                     {i + 1}
                                                 </td>
-                                                <td>{data.code}</td>
-                                                <td>{data.name}</td>
-                                                <td>{data.email}</td>
-                                                <td>{data.phone}</td>
+                                                <td>{data.department_name}</td>
+                                                <td>{data.position_name}</td>
+                                                <td>{data.grade_level}</td>
                                                 <td className="text-nowrap text-center">
-                                                    <FontAwesomeIcon
-                                                        icon={faCircleInfo}
-                                                        className="btn btn-sm btn-info mr-1"
-                                                        onClick={() => {
-                                                            router.push(
-                                                                urlRoute +
-                                                                    "detail/" +
-                                                                    data.id
-                                                            );
-                                                        }}
-                                                    />
-
                                                     <FontAwesomeIcon
                                                         icon={faEdit}
                                                         className="btn btn-sm btn-warning mr-1"

@@ -10,8 +10,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import LoaderTreeCircles from "../loaderTreeCircles";
+import Swal from "sweetalert2";
 
 type propsType = {
     urlFetch: string;
@@ -159,7 +159,7 @@ const Gird = (props: propsType) => {
         <div className="table-responsive mt-3">
             <div className="card">
                 <div className="card-header">
-                    <h4 className="card-title">Data Office</h4>
+                    <h4 className="card-title">Data {pageTitle[2]}</h4>
                 </div>
                 <div className="card-body">
                     <div className="table-responsive">
@@ -225,66 +225,44 @@ const Gird = (props: propsType) => {
                                                     key={i}
                                                     className="text-nowrap"
                                                     onClick={() => {
-                                                        if (
-                                                            column === "No" ||
-                                                            column === "Action"
-                                                        ) {
-                                                            return;
-                                                        } else {
-                                                            if (!sort) {
-                                                                let dataSort: any =
-                                                                    [
-                                                                        "asc",
-                                                                        column,
-                                                                    ];
-                                                                setSort(
-                                                                    dataSort
-                                                                );
-                                                                fetchData(
-                                                                    perPage,
-                                                                    search,
-                                                                    columns,
-                                                                    pagination,
-                                                                    dataSort
-                                                                );
-                                                            }
+                                                        if (!sort) {
+                                                            let dataSort: any =
+                                                                ["asc", column];
+                                                            setSort(dataSort);
+                                                            fetchData(
+                                                                perPage,
+                                                                search,
+                                                                columns,
+                                                                pagination,
+                                                                dataSort
+                                                            );
+                                                        }
 
-                                                            if (
-                                                                sort[0] ===
-                                                                "asc"
-                                                            ) {
-                                                                let dataSort: any =
-                                                                    [
-                                                                        "desc",
-                                                                        column,
-                                                                    ];
-                                                                setSort(
-                                                                    dataSort
-                                                                );
-                                                                fetchData(
-                                                                    perPage,
-                                                                    search,
-                                                                    columns,
-                                                                    pagination,
-                                                                    dataSort
-                                                                );
-                                                            } else {
-                                                                let dataSort: any =
-                                                                    [
-                                                                        "asc",
-                                                                        column,
-                                                                    ];
-                                                                setSort(
-                                                                    dataSort
-                                                                );
-                                                                fetchData(
-                                                                    perPage,
-                                                                    search,
-                                                                    columns,
-                                                                    pagination,
-                                                                    dataSort
-                                                                );
-                                                            }
+                                                        if (sort[0] === "asc") {
+                                                            let dataSort: any =
+                                                                [
+                                                                    "desc",
+                                                                    column,
+                                                                ];
+                                                            setSort(dataSort);
+                                                            fetchData(
+                                                                perPage,
+                                                                search,
+                                                                columns,
+                                                                pagination,
+                                                                dataSort
+                                                            );
+                                                        } else {
+                                                            let dataSort: any =
+                                                                ["asc", column];
+                                                            setSort(dataSort);
+                                                            fetchData(
+                                                                perPage,
+                                                                search,
+                                                                columns,
+                                                                pagination,
+                                                                dataSort
+                                                            );
                                                         }
                                                     }}
                                                 >
@@ -325,23 +303,8 @@ const Gird = (props: propsType) => {
                                                 <td className="text-center">
                                                     {i + 1}
                                                 </td>
-                                                <td>{data.code}</td>
                                                 <td>{data.name}</td>
-                                                <td>{data.email}</td>
-                                                <td>{data.phone}</td>
                                                 <td className="text-nowrap text-center">
-                                                    <FontAwesomeIcon
-                                                        icon={faCircleInfo}
-                                                        className="btn btn-sm btn-info mr-1"
-                                                        onClick={() => {
-                                                            router.push(
-                                                                urlRoute +
-                                                                    "detail/" +
-                                                                    data.id
-                                                            );
-                                                        }}
-                                                    />
-
                                                     <FontAwesomeIcon
                                                         icon={faEdit}
                                                         className="btn btn-sm btn-warning mr-1"

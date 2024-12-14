@@ -8,7 +8,7 @@ import { Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "../../../../app/myStyle.css";
 
-const CreatePositionPage = () => {
+const CreateDepartmentPage = () => {
     // for route
     const router = useRouter();
     const pathName = usePathname();
@@ -27,7 +27,7 @@ const CreatePositionPage = () => {
         e.preventDefault();
 
         await axios
-            .post("/position/store", {
+            .post("/department/store", {
                 code,
                 name,
                 userEmail,
@@ -39,7 +39,7 @@ const CreatePositionPage = () => {
                     icon: response.data.status,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        router.push("/main/position");
+                        router.push("/main/department");
                     }
                 });
             })
@@ -130,4 +130,4 @@ const CreatePositionPage = () => {
     );
 };
 
-export default CreatePositionPage;
+export default CreateDepartmentPage;
