@@ -225,44 +225,66 @@ const Gird = (props: propsType) => {
                                                     key={i}
                                                     className="text-nowrap"
                                                     onClick={() => {
-                                                        if (!sort) {
-                                                            let dataSort: any =
-                                                                ["asc", column];
-                                                            setSort(dataSort);
-                                                            fetchData(
-                                                                perPage,
-                                                                search,
-                                                                columns,
-                                                                pagination,
-                                                                dataSort
-                                                            );
-                                                        }
-
-                                                        if (sort[0] === "asc") {
-                                                            let dataSort: any =
-                                                                [
-                                                                    "desc",
-                                                                    column,
-                                                                ];
-                                                            setSort(dataSort);
-                                                            fetchData(
-                                                                perPage,
-                                                                search,
-                                                                columns,
-                                                                pagination,
-                                                                dataSort
-                                                            );
+                                                        if (
+                                                            column === "No" ||
+                                                            column === "Action"
+                                                        ) {
+                                                            return;
                                                         } else {
-                                                            let dataSort: any =
-                                                                ["asc", column];
-                                                            setSort(dataSort);
-                                                            fetchData(
-                                                                perPage,
-                                                                search,
-                                                                columns,
-                                                                pagination,
-                                                                dataSort
-                                                            );
+                                                            if (!sort) {
+                                                                let dataSort: any =
+                                                                    [
+                                                                        "asc",
+                                                                        column,
+                                                                    ];
+                                                                setSort(
+                                                                    dataSort
+                                                                );
+                                                                fetchData(
+                                                                    perPage,
+                                                                    search,
+                                                                    columns,
+                                                                    pagination,
+                                                                    dataSort
+                                                                );
+                                                            }
+
+                                                            if (
+                                                                sort[0] ===
+                                                                "asc"
+                                                            ) {
+                                                                let dataSort: any =
+                                                                    [
+                                                                        "desc",
+                                                                        column,
+                                                                    ];
+                                                                setSort(
+                                                                    dataSort
+                                                                );
+                                                                fetchData(
+                                                                    perPage,
+                                                                    search,
+                                                                    columns,
+                                                                    pagination,
+                                                                    dataSort
+                                                                );
+                                                            } else {
+                                                                let dataSort: any =
+                                                                    [
+                                                                        "asc",
+                                                                        column,
+                                                                    ];
+                                                                setSort(
+                                                                    dataSort
+                                                                );
+                                                                fetchData(
+                                                                    perPage,
+                                                                    search,
+                                                                    columns,
+                                                                    pagination,
+                                                                    dataSort
+                                                                );
+                                                            }
                                                         }
                                                     }}
                                                 >
