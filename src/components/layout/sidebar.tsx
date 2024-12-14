@@ -7,6 +7,7 @@ import {
     faLandmark,
     faUserTie,
     faLock,
+    faBuildingUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getCookie } from "cookies-next";
@@ -56,7 +57,8 @@ const Sidebar = () => {
             faBuilding,
             faLandmark,
             faUserTie,
-            faLock
+            faLock,
+            faBuildingUser
         );
         // Get data menu from table menu
         async function getMenus() {

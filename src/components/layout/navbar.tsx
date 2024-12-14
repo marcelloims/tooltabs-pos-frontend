@@ -77,7 +77,10 @@ const Navbar = () => {
                                     {splitPageTitle[0].toUpperCase() + " "}
                                     {splitPageTitle[1] === undefined
                                         ? ""
-                                        : splitPageTitle[1].toUpperCase()}
+                                        : splitPageTitle[1].toUpperCase() + " "}
+                                    {splitPageTitle[2] === undefined
+                                        ? ""
+                                        : splitPageTitle[2].toUpperCase()}
                                 </div>
                             </div>
                             <div
