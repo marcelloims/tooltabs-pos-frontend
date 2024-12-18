@@ -4,46 +4,26 @@ import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import LoaderRotatingLines from "./loaderRotatingLines";
 
-interface Response {
-    code: number;
-    response: any;
-    status: string;
-}
-
 const SelectedDepartment = ({
     getDepartmentId,
     validateDepartment,
-    value,
+    defaultValue,
+    dataDepartment,
+    isLoading,
 }: any) => {
-    // State
-    const [loading, setLoading] = useState(false);
-    const [fetchResponse, setFetchResponse] = useState<Response>();
+    // ************* STATE *************
+    const [value, setValue] = useState<string>();
 
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-
-            const dataResponse = await axios.get("/department/getAll");
-
-            setLoading(false);
-            setFetchResponse(dataResponse.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {}, [fetchResponse, loading]);
-
+    // ************* Hook *************
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (defaultValue) {
+            setValue(defaultValue);
+        } else {
+            setValue("DEFAULT");
+        }
+    });
 
-    let defaultValue = null;
-    if (value) {
-        defaultValue = value;
-    } else {
-        defaultValue = "DEFAULT";
-    }
+    useEffect(() => {}, [value]);
 
     return (
         <div>
@@ -52,13 +32,11 @@ const SelectedDepartment = ({
             {validateDepartment && (
                 <p className="validation-custom">{validateDepartment}</p>
             )}
-
-            {defaultValue === "DEFAULT" &&
-            value !== defaultValue &&
-            value === null ? (
+            {isLoading ? (
                 <LoaderRotatingLines />
             ) : (
                 <Form.Select
+                    value={value}
                     onChange={(event: any) => {
                         getDepartmentId(event.target.value);
                     }}
@@ -67,16 +45,17 @@ const SelectedDepartment = ({
                         (validateDepartment ? "is-invalid" : "")
                     }
                     style={{ color: "#0a2d3d" }}
-                    value={defaultValue}
                 >
                     <option value="DEFAULT" disabled>
                         select a Department
                     </option>
-                    {fetchResponse?.response.map((department: any, i: any) => (
-                        <option key={i} value={department.id}>
-                            {department.code}
-                        </option>
-                    ))}
+                    {dataDepartment?.response?.map(
+                        (department: any, i: any) => (
+                            <option key={i} value={department.id}>
+                                {department.name}
+                            </option>
+                        )
+                    )}
                 </Form.Select>
             )}
         </div>

@@ -10,36 +10,25 @@ interface Response {
     status: string;
 }
 
-const SelectedGrade = ({ getGradeId, validateGrade, value }: any) => {
-    // State
-    const [loading, setLoading] = useState(false);
-    const [fetchResponse, setFetchResponse] = useState<Response>();
+const SelectedGrade = ({
+    getGradeId,
+    validateGrade,
+    defaultValue,
+    dataGrade,
+    isLoading,
+}: any) => {
+    const [value, setValue] = useState<string>();
 
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-
-            const dataResponse = await axios.get("/grade/getAll");
-
-            setLoading(false);
-            setFetchResponse(dataResponse.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {}, [fetchResponse, loading]);
-
+    // ************* Hook *************
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (defaultValue) {
+            setValue(defaultValue);
+        } else {
+            setValue("DEFAULT");
+        }
+    });
 
-    let defaultValue = null;
-    if (value) {
-        defaultValue = value;
-    } else {
-        defaultValue = "DEFAULT";
-    }
+    useEffect(() => {}, [value]);
 
     return (
         <div>
@@ -49,13 +38,11 @@ const SelectedGrade = ({ getGradeId, validateGrade, value }: any) => {
                 <p className="validation-custom">{validateGrade}</p>
             )}
 
-            {defaultValue === "DEFAULT" &&
-            value !== defaultValue &&
-            value === null ? (
+            {isLoading ? (
                 <LoaderRotatingLines />
             ) : (
                 <Form.Select
-                    defaultValue={defaultValue}
+                    value={value}
                     onChange={(event: any) => {
                         getGradeId(event.target.value);
                     }}
@@ -67,7 +54,7 @@ const SelectedGrade = ({ getGradeId, validateGrade, value }: any) => {
                     <option value="DEFAULT" disabled>
                         select a Grade
                     </option>
-                    {fetchResponse?.response.map((grade: any, i: any) => (
+                    {dataGrade?.response?.map((grade: any, i: any) => (
                         <option key={i} value={grade.id}>
                             {grade.level}
                         </option>

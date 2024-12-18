@@ -1,45 +1,28 @@
 "use client";
-import axios from "@/lib/axios";
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import LoaderRotatingLines from "./loaderRotatingLines";
 
-interface Response {
-    code: number;
-    response: any;
-    status: string;
-}
+const SelectedPosition = ({
+    getPositionId,
+    validatePosition,
+    defaultValue,
+    dataPosition,
+    isLoading,
+}: any) => {
+    // ************* STATE *************
+    const [value, setValue] = useState<string>();
 
-const SelectedPosition = ({ getPositionId, validatePosition, value }: any) => {
-    // State
-    const [loading, setLoading] = useState(false);
-    const [fetchResponse, setFetchResponse] = useState<Response>();
-
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-
-            const dataResponse = await axios.get("/position/getAll");
-
-            setLoading(false);
-            setFetchResponse(dataResponse.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {}, [fetchResponse, loading]);
-
+    // ************* Hook *************
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (defaultValue) {
+            setValue(defaultValue);
+        } else {
+            setValue("DEFAULT");
+        }
+    });
 
-    let defaultValue = null;
-    if (value) {
-        defaultValue = value;
-    } else {
-        defaultValue = "DEFAULT";
-    }
+    useEffect(() => {}, [value]);
 
     return (
         <div>
@@ -48,14 +31,11 @@ const SelectedPosition = ({ getPositionId, validatePosition, value }: any) => {
             {validatePosition && (
                 <p className="validation-custom">{validatePosition}</p>
             )}
-
-            {defaultValue === "DEFAULT" &&
-            value !== defaultValue &&
-            value === null ? (
+            {isLoading ? (
                 <LoaderRotatingLines />
             ) : (
                 <Form.Select
-                    value={defaultValue}
+                    value={value}
                     onChange={(event: any) => {
                         getPositionId(event.target.value);
                     }}
@@ -68,7 +48,7 @@ const SelectedPosition = ({ getPositionId, validatePosition, value }: any) => {
                     <option value="DEFAULT" disabled>
                         select a Position
                     </option>
-                    {fetchResponse?.response.map((position: any, i: any) => (
+                    {dataPosition?.response?.map((position: any, i: any) => (
                         <option key={i} value={position.id}>
                             {position.name}
                         </option>
