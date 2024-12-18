@@ -7,44 +7,47 @@ import React, { SyntheticEvent, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "../../../../app/myStyle.css";
-import LoaderTreeCircles from "@/components/assets/loaderTreeCircles";
-import SelectedOffice from "@/components/assets/selectedOffice";
-import SelectedDepartment from "@/components/assets/selectedDepartment";
 import SelectedPosition from "@/components/assets/selectedPosition";
 import SelectedGrade from "@/components/assets/selectedGrade";
+import SelectedDepartment from "@/components/assets/selectedDepartment";
+import SelectedOffice from "@/components/assets/selectedOffice";
 
 type propsType = {
     departmentPerPositionId: string;
 };
 
 const EditDepartmentPerPositionPage = (props: propsType) => {
-    // for route
+    // ************* Route *************
     const router = useRouter();
     const pathName = usePathname();
 
-    // destructuring props
+    // ************* destructuring props *************
     const { departmentPerPositionId } = props;
 
     // Satup Title Per-Page
     let pageTitle = String(pathName).split("/");
 
-    // this state
+    // ************* STATE *************
     const [loading, setLoading] = useState(false);
     const [id, setDepartmentPerPosition] = useState(null);
     const [office_id, setOffice] = useState(null);
     const [department_id, setDepartment] = useState(null);
     const [position_id, setPosition] = useState(null);
     const [grade_id, setGrade] = useState(null);
+    const [fetchOfficeResponse, setFetchOfficeResponse] = useState(null);
+    const [fetchDepartmentResponse, setFetchDepartmentResponse] =
+        useState(null);
+    const [fetchPositionResponse, setFetchPositionResponse] = useState(null);
+    const [fetchGradeResponse, setFetchGradeResponse] = useState(null);
     const [validateOffice, setValidateOffice] = useState("");
     const [validateDepartment, setValidateDepartment] = useState("");
     const [validatePosition, setValidatePosition] = useState("");
     const [validateGrade, setValidateGrade] = useState("");
     const userEmail = getCookie("email");
 
-    // Function
+    // ************* API *************
     const fetchEdit = async () => {
         try {
-            // setLoading(true);
             const dataResponse = await axios.get(
                 `/department_per_position/edit/${departmentPerPositionId}`
             );
@@ -53,12 +56,64 @@ const EditDepartmentPerPositionPage = (props: propsType) => {
             setDepartment(dataResponse.data.response.department_id);
             setPosition(dataResponse.data.response.position_id);
             setGrade(dataResponse.data.response.grade_id);
-            // setLoading(false);
         } catch (error) {
             console.log(error);
         }
     };
 
+    const fetchOffice = async () => {
+        try {
+            setLoading(true);
+
+            const dataResponse = await axios.get("/office/getAll");
+
+            setFetchOfficeResponse(dataResponse.data);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchDepartment = async () => {
+        try {
+            setLoading(true);
+
+            const dataResponse = await axios.get("/department/getAll");
+
+            setFetchDepartmentResponse(dataResponse.data);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchPosition = async () => {
+        try {
+            setLoading(true);
+
+            const dataResponse = await axios.get("/position/getAll");
+
+            setFetchPositionResponse(dataResponse.data);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchGrade = async () => {
+        try {
+            setLoading(true);
+
+            const dataResponse = await axios.get("/grade/getAll");
+
+            setFetchGradeResponse(dataResponse.data);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // ************* Function *************
     // Format column name
     const formatColumnName = (column: any) => {
         let data = column.toString();
@@ -129,13 +184,17 @@ const EditDepartmentPerPositionPage = (props: propsType) => {
             });
     };
 
-    // Hook
+    // ************* Function *************
     useEffect(() => {}, [
         loading,
         office_id,
         department_id,
         position_id,
         grade_id,
+        fetchOfficeResponse,
+        fetchDepartmentResponse,
+        fetchPositionResponse,
+        fetchGradeResponse,
         validateOffice,
         validateDepartment,
         validatePosition,
@@ -144,6 +203,10 @@ const EditDepartmentPerPositionPage = (props: propsType) => {
 
     useEffect(() => {
         fetchEdit();
+        fetchOffice();
+        fetchDepartment();
+        fetchPosition();
+        fetchGrade();
     }, []);
 
     return (
@@ -159,69 +222,78 @@ const EditDepartmentPerPositionPage = (props: propsType) => {
                                 <BackButton />
                             </div>
                             <div className="card-body">
-                                {loading ? (
-                                    <LoaderTreeCircles />
-                                ) : (
-                                    <div className="basic-form">
-                                        <Form onSubmit={handleSubmit}>
-                                            <div className="form-row">
-                                                <Form.Group className="form-group col-md-6">
-                                                    <SelectedOffice
-                                                        getOfficeId={
-                                                            handleSelectedOffice
-                                                        }
-                                                        validateOffice={
-                                                            validateOffice
-                                                        }
-                                                        value={office_id}
-                                                    />
-                                                </Form.Group>
-
-                                                <Form.Group className="form-group col-md-6">
-                                                    <SelectedDepartment
-                                                        getDepartmentId={
-                                                            handleSelectedDepartment
-                                                        }
-                                                        validateDepartment={
-                                                            validateDepartment
-                                                        }
-                                                        value={department_id}
-                                                    />
-                                                </Form.Group>
-
-                                                <Form.Group className="form-group col-md-6">
-                                                    <SelectedPosition
-                                                        getPositionId={
-                                                            handleSelectedPosition
-                                                        }
-                                                        validatePosition={
-                                                            validatePosition
-                                                        }
-                                                        value={position_id}
-                                                    />
-                                                </Form.Group>
-
-                                                <Form.Group className="form-group col-md-6">
-                                                    <SelectedGrade
-                                                        getGradeId={
-                                                            handleSelectedGrade
-                                                        }
-                                                        validateGrade={
-                                                            validateGrade
-                                                        }
-                                                        value={grade_id}
-                                                    />
-                                                </Form.Group>
-                                            </div>
-                                            <button
-                                                type="submit"
-                                                className="btn btn-primary float-right"
-                                            >
-                                                Save
-                                            </button>
-                                        </Form>
-                                    </div>
-                                )}
+                                <div className="basic-form">
+                                    <Form onSubmit={handleSubmit}>
+                                        <div className="form-row">
+                                            <Form.Group className="form-group col-md-6">
+                                                <SelectedOffice
+                                                    getOfficeId={
+                                                        handleSelectedOffice
+                                                    }
+                                                    validateOffice={
+                                                        validateOffice
+                                                    }
+                                                    defaultValue={office_id}
+                                                    dataOffice={
+                                                        fetchOfficeResponse
+                                                    }
+                                                    isLoading={loading}
+                                                />
+                                            </Form.Group>
+                                            <Form.Group className="form-group col-md-6">
+                                                <SelectedDepartment
+                                                    getDepartmentId={
+                                                        handleSelectedDepartment
+                                                    }
+                                                    validateDepartment={
+                                                        validateDepartment
+                                                    }
+                                                    defaultValue={department_id}
+                                                    dataDepartment={
+                                                        fetchDepartmentResponse
+                                                    }
+                                                    isLoading={loading}
+                                                />
+                                            </Form.Group>
+                                            <Form.Group className="form-group col-md-6">
+                                                <SelectedPosition
+                                                    getPositionId={
+                                                        handleSelectedPosition
+                                                    }
+                                                    validatePosition={
+                                                        validatePosition
+                                                    }
+                                                    defaultValue={position_id}
+                                                    dataPosition={
+                                                        fetchPositionResponse
+                                                    }
+                                                    isLoading={loading}
+                                                />
+                                            </Form.Group>
+                                            <Form.Group className="form-group col-md-6">
+                                                <SelectedGrade
+                                                    getGradeId={
+                                                        handleSelectedGrade
+                                                    }
+                                                    validateGrade={
+                                                        validateGrade
+                                                    }
+                                                    defaultValue={grade_id}
+                                                    dataGrade={
+                                                        fetchGradeResponse
+                                                    }
+                                                    isLoading={loading}
+                                                />
+                                            </Form.Group>
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary float-right"
+                                        >
+                                            Save
+                                        </button>
+                                    </Form>
+                                </div>
                             </div>
                         </div>
                     </div>

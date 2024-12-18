@@ -10,35 +10,26 @@ interface Response {
     status: string;
 }
 
-const SelectedOffice = ({ getOfficeId, validateOffice, value }: any) => {
-    // State
-    const [loading, setLoading] = useState(false);
-    const [fetchResponse, setFetchResponse] = useState<Response>();
+const SelectedOffice = ({
+    getOfficeId,
+    validateOffice,
+    defaultValue,
+    dataOffice,
+    isLoading,
+}: any) => {
+    // ************* STATE *************
+    const [value, setValue] = useState<string>();
 
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-            const dataResponse = await axios.get("/office/getAll");
-
-            setLoading(false);
-            setFetchResponse(dataResponse.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {}, [fetchResponse, loading]);
-
+    // ************* Hook *************
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (defaultValue) {
+            setValue(defaultValue);
+        } else {
+            setValue("DEFAULT");
+        }
+    });
 
-    let defaultValue = null;
-    if (value) {
-        defaultValue = value;
-    } else {
-        defaultValue = "DEFAULT";
-    }
+    useEffect(() => {}, [value]);
 
     return (
         <div>
@@ -48,13 +39,11 @@ const SelectedOffice = ({ getOfficeId, validateOffice, value }: any) => {
                 <p className="validation-custom">{validateOffice}</p>
             )}
 
-            {defaultValue === "DEFAULT" &&
-            value !== defaultValue &&
-            value === null ? (
+            {isLoading ? (
                 <LoaderRotatingLines />
             ) : (
                 <Form.Select
-                    value={defaultValue}
+                    value={value}
                     onChange={(event: any) => {
                         getOfficeId(event.target.value);
                     }}
@@ -66,7 +55,7 @@ const SelectedOffice = ({ getOfficeId, validateOffice, value }: any) => {
                     <option value="DEFAULT" disabled>
                         select a Office
                     </option>
-                    {fetchResponse?.response.map((office: any, i: any) => (
+                    {dataOffice?.response?.map((office: any, i: any) => (
                         <option key={i} value={office.id}>
                             {office.code}
                         </option>

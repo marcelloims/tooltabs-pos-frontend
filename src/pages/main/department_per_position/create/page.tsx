@@ -7,20 +7,26 @@ import React, { SyntheticEvent, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "../../../../app/myStyle.css";
-import SelectedDepartment from "@/components/assets/selectedDepartment";
 import SelectedPosition from "@/components/assets/selectedPosition";
-import SelectedGrade from "@/components/assets/selectedGrade";
+import SelectedDepartment from "@/components/assets/selectedDepartment";
 import SelectedOffice from "@/components/assets/selectedOffice";
+import SelectedGrade from "@/components/assets/selectedGrade";
 
 const CreateDepartmentPerPositionPage = () => {
-    // for route
+    // ************* ROUTE *************
     const router = useRouter();
     const pathName = usePathname();
 
     // Satup Title Per-Page
     let pageTitle = String(pathName).split("/");
 
-    // this state
+    // ************* STATE *************
+    const [loading, setLoading] = useState(null);
+    const [fetchOfficeResponse, setFetchOfficeResponse] = useState(false);
+    const [fetchDepartmentResponse, setFetchDepartmentResponse] =
+        useState(false);
+    const [fetchPositionResponse, setFetchPositionResponse] = useState(false);
+    const [fetchGradeResponse, setFetchGradeResponse] = useState(false);
     const [office_id, setOffice] = useState(null);
     const [department_id, setDepartment] = useState(null);
     const [position_id, setPosition] = useState(null);
@@ -31,6 +37,76 @@ const CreateDepartmentPerPositionPage = () => {
     const [validateGrade, setValidateGrade] = useState("");
     const userEmail = getCookie("email");
 
+    // ************* API *************
+    const fetchOffice = async () => {
+        try {
+            const dataResponse = await axios.get("/office/getAll");
+            setFetchOfficeResponse(dataResponse.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchDepartment = async () => {
+        try {
+            const dataResponse = await axios.get("/department/getAll");
+            setFetchDepartmentResponse(dataResponse.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchPosition = async () => {
+        try {
+            const dataResponse = await axios.get("/position/getAll");
+            setFetchPositionResponse(dataResponse.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchGrade = async () => {
+        try {
+            const dataResponse = await axios.get("/grade/getAll");
+            setFetchGradeResponse(dataResponse.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleSubmit = async (e: SyntheticEvent) => {
+        e.preventDefault();
+
+        await axios
+            .post("/department_per_position/store", {
+                office_id,
+                department_id,
+                position_id,
+                grade_id,
+                userEmail,
+            })
+            .then((response) => {
+                Swal.fire({
+                    title: "Data " + formatColumnName(pageTitle[2]),
+                    text: response.data.message,
+                    icon: response.data.status,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        router.push("/main/department_per_position");
+                    }
+                });
+            })
+            .catch((error) => {
+                setValidateOffice(error.response.data.request.office_id);
+                setValidateDepartment(
+                    error.response.data.request.department_id
+                );
+                setValidatePosition(error.response.data.request.position_id);
+                setValidateGrade(error.response.data.request.grade_id);
+            });
+    };
+
+    // ************* Function *************
     // Format column name
     const formatColumnName = (column: any) => {
         let data = column.toString();
@@ -69,38 +145,7 @@ const CreateDepartmentPerPositionPage = () => {
         setGrade(data);
     };
 
-    const handleSubmit = async (e: SyntheticEvent) => {
-        e.preventDefault();
-
-        await axios
-            .post("/department_per_position/store", {
-                office_id,
-                department_id,
-                position_id,
-                grade_id,
-                userEmail,
-            })
-            .then((response) => {
-                Swal.fire({
-                    title: "Data " + formatColumnName(pageTitle[2]),
-                    text: response.data.message,
-                    icon: response.data.status,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        router.push("/main/department_per_position");
-                    }
-                });
-            })
-            .catch((error) => {
-                setValidateOffice(error.response.data.request.office_id);
-                setValidateDepartment(
-                    error.response.data.request.department_id
-                );
-                setValidatePosition(error.response.data.request.position_id);
-                setValidateGrade(error.response.data.request.grade_id);
-            });
-    };
-
+    // ************* Hook *************
     useEffect(() => {}, [
         office_id,
         department_id,
@@ -110,9 +155,18 @@ const CreateDepartmentPerPositionPage = () => {
         validateDepartment,
         validatePosition,
         validateGrade,
+        fetchOfficeResponse,
+        fetchDepartmentResponse,
+        fetchPositionResponse,
+        fetchGradeResponse,
     ]);
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        fetchOffice();
+        fetchDepartment();
+        fetchPosition();
+        fetchGrade();
+    }, []);
 
     return (
         <div className="content-body">
@@ -138,9 +192,13 @@ const CreateDepartmentPerPositionPage = () => {
                                                     validateOffice={
                                                         validateOffice
                                                     }
+                                                    defaultValue={office_id}
+                                                    dataOffice={
+                                                        fetchOfficeResponse
+                                                    }
+                                                    isLoading={loading}
                                                 />
                                             </Form.Group>
-
                                             <Form.Group className="form-group col-md-6">
                                                 <SelectedDepartment
                                                     getDepartmentId={
@@ -149,9 +207,13 @@ const CreateDepartmentPerPositionPage = () => {
                                                     validateDepartment={
                                                         validateDepartment
                                                     }
+                                                    defaultValue={department_id}
+                                                    dataDepartment={
+                                                        fetchDepartmentResponse
+                                                    }
+                                                    isLoading={loading}
                                                 />
                                             </Form.Group>
-
                                             <Form.Group className="form-group col-md-6">
                                                 <SelectedPosition
                                                     getPositionId={
@@ -160,9 +222,13 @@ const CreateDepartmentPerPositionPage = () => {
                                                     validatePosition={
                                                         validatePosition
                                                     }
+                                                    defaultValue={position_id}
+                                                    dataPosition={
+                                                        fetchPositionResponse
+                                                    }
+                                                    isLoading={loading}
                                                 />
                                             </Form.Group>
-
                                             <Form.Group className="form-group col-md-6">
                                                 <SelectedGrade
                                                     getGradeId={
@@ -171,6 +237,11 @@ const CreateDepartmentPerPositionPage = () => {
                                                     validateGrade={
                                                         validateGrade
                                                     }
+                                                    defaultValue={grade_id}
+                                                    dataGrade={
+                                                        fetchGradeResponse
+                                                    }
+                                                    isLoading={loading}
                                                 />
                                             </Form.Group>
                                         </div>
