@@ -1,5 +1,4 @@
 "use client";
-import axios from "@/lib/axios";
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import LoaderRotatingLines from "./loaderRotatingLines";

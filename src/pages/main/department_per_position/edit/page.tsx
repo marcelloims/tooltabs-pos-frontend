@@ -11,6 +11,7 @@ import SelectedPosition from "@/components/assets/selectedPosition";
 import SelectedGrade from "@/components/assets/selectedGrade";
 import SelectedDepartment from "@/components/assets/selectedDepartment";
 import SelectedOffice from "@/components/assets/selectedOffice";
+import { formatColumnName } from "@/lib/customFunction";
 
 type propsType = {
     departmentPerPositionId: string;
@@ -114,27 +115,6 @@ const EditDepartmentPerPositionPage = (props: propsType) => {
     };
 
     // ************* Function *************
-    // Format column name
-    const formatColumnName = (column: any) => {
-        let data = column.toString();
-
-        let pageTitle = String(data).split("_");
-
-        let upperFirst = pageTitle[0].slice(0, 1).toUpperCase();
-        let lowerFirst = pageTitle[0].slice(1).toLowerCase();
-        let first = upperFirst + lowerFirst;
-
-        let upperSecond = pageTitle[1]?.slice(0, 1).toUpperCase();
-        let lowerSecond = pageTitle[1]?.slice(1).toLowerCase();
-        let second = upperSecond + lowerSecond ? upperSecond + lowerSecond : "";
-
-        let upperTrird = pageTitle[2]?.slice(0, 1).toUpperCase();
-        let lowerTrird = pageTitle[2]?.slice(1).toLowerCase();
-        let trird = upperTrird + lowerTrird ? upperTrird + lowerTrird : "";
-
-        let formatColumnName = first + " " + second + " " + trird;
-        return formatColumnName;
-    };
 
     const handleSelectedOffice = (data: any) => {
         setOffice(data);

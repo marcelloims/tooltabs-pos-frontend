@@ -11,6 +11,7 @@ import SelectedPosition from "@/components/assets/selectedPosition";
 import SelectedDepartment from "@/components/assets/selectedDepartment";
 import SelectedOffice from "@/components/assets/selectedOffice";
 import SelectedGrade from "@/components/assets/selectedGrade";
+import { formatColumnName } from "@/lib/customFunction";
 
 const CreateDepartmentPerPositionPage = () => {
     // ************* ROUTE *************
@@ -21,7 +22,7 @@ const CreateDepartmentPerPositionPage = () => {
     let pageTitle = String(pathName).split("/");
 
     // ************* STATE *************
-    const [loading, setLoading] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [fetchOfficeResponse, setFetchOfficeResponse] = useState(false);
     const [fetchDepartmentResponse, setFetchDepartmentResponse] =
         useState(false);
@@ -40,8 +41,10 @@ const CreateDepartmentPerPositionPage = () => {
     // ************* API *************
     const fetchOffice = async () => {
         try {
+            setLoading(true);
             const dataResponse = await axios.get("/office/getAll");
             setFetchOfficeResponse(dataResponse.data);
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -49,8 +52,10 @@ const CreateDepartmentPerPositionPage = () => {
 
     const fetchDepartment = async () => {
         try {
+            setLoading(true);
             const dataResponse = await axios.get("/department/getAll");
             setFetchDepartmentResponse(dataResponse.data);
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -58,8 +63,10 @@ const CreateDepartmentPerPositionPage = () => {
 
     const fetchPosition = async () => {
         try {
+            setLoading(true);
             const dataResponse = await axios.get("/position/getAll");
             setFetchPositionResponse(dataResponse.data);
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -67,8 +74,10 @@ const CreateDepartmentPerPositionPage = () => {
 
     const fetchGrade = async () => {
         try {
+            setLoading(true);
             const dataResponse = await axios.get("/grade/getAll");
             setFetchGradeResponse(dataResponse.data);
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -107,28 +116,6 @@ const CreateDepartmentPerPositionPage = () => {
     };
 
     // ************* Function *************
-    // Format column name
-    const formatColumnName = (column: any) => {
-        let data = column.toString();
-
-        let pageTitle = String(data).split("_");
-
-        let upperFirst = pageTitle[0].slice(0, 1).toUpperCase();
-        let lowerFirst = pageTitle[0].slice(1).toLowerCase();
-        let first = upperFirst + lowerFirst;
-
-        let upperSecond = pageTitle[1]?.slice(0, 1).toUpperCase();
-        let lowerSecond = pageTitle[1]?.slice(1).toLowerCase();
-        let second = upperSecond + lowerSecond ? upperSecond + lowerSecond : "";
-
-        let upperTrird = pageTitle[2]?.slice(0, 1).toUpperCase();
-        let lowerTrird = pageTitle[2]?.slice(1).toLowerCase();
-        let trird = upperTrird + lowerTrird ? upperTrird + lowerTrird : "";
-
-        let formatColumnName = first + " " + second + " " + trird;
-        return formatColumnName;
-    };
-
     const handleSelectedOffice = (data: any) => {
         setOffice(data);
     };
@@ -147,6 +134,7 @@ const CreateDepartmentPerPositionPage = () => {
 
     // ************* Hook *************
     useEffect(() => {}, [
+        loading,
         office_id,
         department_id,
         position_id,
