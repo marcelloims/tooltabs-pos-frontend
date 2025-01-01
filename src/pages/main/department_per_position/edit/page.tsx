@@ -164,7 +164,7 @@ const EditDepartmentPerPositionPage = (props: propsType) => {
             });
     };
 
-    // ************* Function *************
+    // ************* Hook *************
     useEffect(() => {}, [
         loading,
         office_id,
