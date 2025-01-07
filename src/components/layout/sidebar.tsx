@@ -4,6 +4,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
     faCircleChevronRight,
     faBuilding,
+    faFlaskVial,
     faLandmark,
     faUserTie,
     faLock,
@@ -28,8 +29,8 @@ const Sidebar = () => {
     // State
     const [counter, setCounter] = useState(1);
     const [menus, setMenus] = useState([]);
-    const [submenus, setSubmenus] = useState<any>([]);
-    const [expand, setExpand] = useState(false);
+    const [expand, setExpand] = useState(0);
+    const [expandMenu, setExpandMenu] = useState(0);
 
     const changeMenu = () => {
         if (counter === 1) {
@@ -39,16 +40,56 @@ const Sidebar = () => {
         }
     };
 
-    const getSubMenu = (menuId: any) => {
-        if (!expand) {
-            setExpand(true);
-            let submenu = menus
-                .filter((menu: any) => menu.submenu == menuId)
-                .sort((a: any, b: any) => a.sequent - b.sequent);
-            setSubmenus(submenu);
+    const getSubMenu = async (menuId: number, valueExpand: number) => {
+        if (valueExpand === 0 && expand === 0) {
+            let valueExpand = 1;
+            await axios
+                .put("/menu/update", {
+                    menuId,
+                    valueExpand,
+                })
+                .then((response) => {
+                    setExpand(1);
+                    setExpandMenu(menuId);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         } else {
-            setExpand(false);
+            let valueExpand = 0;
+            await axios
+                .put("/menu/update", {
+                    menuId,
+                    valueExpand,
+                })
+                .then((response) => {
+                    setExpand(0);
+                    setExpandMenu(menuId);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
+    };
+
+    const resetMenu = async () => {
+        let valueExpand = 0;
+        let menuId = 0;
+        let department_per_position_id = getCookie(
+            "department_per_position_id"
+        );
+        await axios
+            .put("/menu/update", {
+                menuId,
+                valueExpand,
+                department_per_position_id,
+            })
+            .then((response) => {
+                setExpand(0);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     useEffect(() => {
@@ -56,10 +97,15 @@ const Sidebar = () => {
             faCircleChevronRight,
             faBuilding,
             faLandmark,
+            faFlaskVial,
             faUserTie,
             faLock,
             faBuildingUser
         );
+
+        // reset menu if refresh page
+        resetMenu();
+
         // Get data menu from table menu
         async function getMenus() {
             // Filter menu by user login
@@ -77,7 +123,7 @@ const Sidebar = () => {
         getMenus();
     }, []);
 
-    useEffect(() => {}, [counter, menus, submenus, expand]);
+    useEffect(() => {}, [counter, menus, expand, expandMenu]);
 
     return (
         <>
@@ -154,47 +200,56 @@ const Sidebar = () => {
                                             </Link>
                                         </li>
                                     ) : (
-                                        !menu.submenu &&
-                                        submenus.id === menu.submenus && (
-                                            <li
-                                                key={i}
+                                        <li
+                                            key={i}
+                                            className={
+                                                expand === 1 &&
+                                                expandMenu === menu.id
+                                                    ? "mm-active"
+                                                    : ""
+                                            }
+                                        >
+                                            <Link
+                                                href={menu.url ? menu.url : "#"}
                                                 className={
-                                                    expand ? "mm-active" : ""
+                                                    expand === 1 &&
+                                                    expandMenu === menu.id
+                                                        ? "has-arrow ai-icon"
+                                                        : "has-arrow ai-icon"
                                                 }
+                                                aria-expanded={
+                                                    expand === 1 &&
+                                                    expandMenu === menu.id
+                                                        ? "true"
+                                                        : "false"
+                                                }
+                                                onClick={() => {
+                                                    if (!menu.url) {
+                                                        getSubMenu(
+                                                            menu.id,
+                                                            menu.expand
+                                                        );
+                                                    }
+                                                }}
                                             >
-                                                <Link
-                                                    href="#"
-                                                    className={
-                                                        expand
-                                                            ? "has-arrow ai-icon"
-                                                            : "has-arrow ai-icon"
-                                                    }
-                                                    aria-expanded={
-                                                        expand
-                                                            ? "true"
-                                                            : "false"
-                                                    }
-                                                    onClick={() =>
-                                                        getSubMenu(menu.id)
-                                                    }
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={menu.icon}
-                                                        style={{
-                                                            color: "#0a2e3d",
-                                                        }}
-                                                    />
+                                                <FontAwesomeIcon
+                                                    icon={menu.icon}
+                                                    style={{
+                                                        color: "#0a2e3d",
+                                                    }}
+                                                />
 
-                                                    <span className="nav-text">
-                                                        {menu.name}
-                                                    </span>
-                                                </Link>
-                                                {expand && (
+                                                <span className="nav-text">
+                                                    {menu.name}
+                                                </span>
+                                            </Link>
+                                            {expand === 1 &&
+                                                expandMenu === menu.id && (
                                                     <ul
                                                         aria-expanded="false"
                                                         className="mm-collapse mm-show"
                                                     >
-                                                        {submenus.map(
+                                                        {menu.submenus?.map(
                                                             (
                                                                 submenu: any,
                                                                 i: any
@@ -223,8 +278,7 @@ const Sidebar = () => {
                                                         )}
                                                     </ul>
                                                 )}
-                                            </li>
-                                        )
+                                        </li>
                                     )
                                 )}
                     </ul>
