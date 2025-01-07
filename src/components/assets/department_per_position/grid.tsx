@@ -350,7 +350,9 @@ const Gird = (props: propsType) => {
                                                 </td>
                                                 <td>{data.department_name}</td>
                                                 <td>{data.position_name}</td>
-                                                <td>{data.grade_level}</td>
+                                                <td className="text-center">
+                                                    {data.grade_level}
+                                                </td>
                                                 <td className="text-nowrap text-center">
                                                     <FontAwesomeIcon
                                                         icon={faEdit}
