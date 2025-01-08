@@ -118,7 +118,7 @@ const EditPositionPage = (props: propsType) => {
                                                                 ? "is-invalid"
                                                                 : "")
                                                         }
-                                                        placeholder="Input code office"
+                                                        placeholder="Input code position"
                                                         style={{
                                                             color: "#0a2d3d",
                                                         }}
@@ -135,7 +135,7 @@ const EditPositionPage = (props: propsType) => {
                                                     <Form.Control
                                                         type="hidden"
                                                         className="form-control"
-                                                        placeholder="Input name office"
+                                                        placeholder="Input name position"
                                                         style={{
                                                             color: "#0a2d3d",
                                                         }}
@@ -163,7 +163,7 @@ const EditPositionPage = (props: propsType) => {
                                                                 ? "is-invalid"
                                                                 : "")
                                                         }
-                                                        placeholder="Input name office"
+                                                        placeholder="Input name position"
                                                         style={{
                                                             color: "#0a2d3d",
                                                         }}

@@ -105,7 +105,7 @@ const EditCategoryPage = (props: propsType) => {
                                                     <Form.Control
                                                         type="hidden"
                                                         className="form-control"
-                                                        placeholder="Input name office"
+                                                        placeholder="Input name category"
                                                         style={{
                                                             color: "#0a2d3d",
                                                         }}
