@@ -75,7 +75,7 @@ const CreateCategoryPage = () => {
                                                             ? "is-invalid"
                                                             : "")
                                                     }
-                                                    placeholder="Input name position"
+                                                    placeholder="Input name category"
                                                     style={{ color: "#0a2d3d" }}
                                                     value={name}
                                                     onChange={(event) =>

@@ -364,9 +364,10 @@ const Gird = (props: propsType) => {
                                                     sort
                                                 );
                                             }}
-                                        >
-                                            {per_page.label}
-                                        </a>
+                                            dangerouslySetInnerHTML={{
+                                                __html: per_page.label,
+                                            }}
+                                        ></a>
                                     </li>
                                 )
                             )}

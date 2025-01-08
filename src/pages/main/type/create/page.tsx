@@ -8,7 +8,7 @@ import { Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "../../../../app/myStyle.css";
 
-const CreateDepartmentPage = () => {
+const CreateTypePage = () => {
     // for route
     const router = useRouter();
     const pathName = usePathname();
@@ -27,8 +27,7 @@ const CreateDepartmentPage = () => {
         e.preventDefault();
 
         await axios
-            .post("/department/store", {
-                code,
+            .post("/type/store", {
                 name,
                 userEmail,
             })
@@ -39,12 +38,11 @@ const CreateDepartmentPage = () => {
                     icon: response.data.status,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        router.push("/main/department");
+                        router.push("/main/type");
                     }
                 });
             })
             .catch((error) => {
-                setValidateCode(error.response.data.request.code);
                 setValidateName(error.response.data.request.name);
             });
     };
@@ -63,31 +61,6 @@ const CreateDepartmentPage = () => {
                                     <Form onSubmit={handleSubmit}>
                                         <div className="form-row">
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Code</Form.Label>
-                                                {validateCode && (
-                                                    <p className="validation-custom">
-                                                        {validateCode}
-                                                    </p>
-                                                )}
-                                                <Form.Control
-                                                    type="text"
-                                                    className={
-                                                        "bg-text-custom " +
-                                                        (validateCode
-                                                            ? "is-invalid"
-                                                            : "")
-                                                    }
-                                                    placeholder="Input code department"
-                                                    style={{ color: "#0a2d3d" }}
-                                                    value={code}
-                                                    onChange={(event) =>
-                                                        setCode(
-                                                            event.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="form-group col-md-6">
                                                 <Form.Label>Name</Form.Label>
                                                 {validateName && (
                                                     <p className="validation-custom">
@@ -102,7 +75,7 @@ const CreateDepartmentPage = () => {
                                                             ? "is-invalid"
                                                             : "")
                                                     }
-                                                    placeholder="Input name department"
+                                                    placeholder="Input name type"
                                                     style={{ color: "#0a2d3d" }}
                                                     value={name}
                                                     onChange={(event) =>
@@ -130,4 +103,4 @@ const CreateDepartmentPage = () => {
     );
 };
 
-export default CreateDepartmentPage;
+export default CreateTypePage;
