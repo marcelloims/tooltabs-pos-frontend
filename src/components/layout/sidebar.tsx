@@ -3,6 +3,8 @@ import axios from "@/lib/axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
     faCircleChevronRight,
+    faVials,
+    faVial,
     faBuilding,
     faFlaskVial,
     faLandmark,
@@ -100,7 +102,9 @@ const Sidebar = () => {
             faFlaskVial,
             faUserTie,
             faLock,
-            faBuildingUser
+            faBuildingUser,
+            faVials,
+            faVial
         );
 
         // reset menu if refresh page
