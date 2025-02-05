@@ -11,6 +11,8 @@ import {
     faUserTie,
     faLock,
     faBuildingUser,
+    faBowlRice,
+    faFile,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getCookie } from "cookies-next";
@@ -104,7 +106,9 @@ const Sidebar = () => {
             faLock,
             faBuildingUser,
             faVials,
-            faVial
+            faVial,
+            faBowlRice,
+            faFile
         );
 
         // reset menu if refresh page

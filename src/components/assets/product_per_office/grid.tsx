@@ -12,7 +12,11 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import LoaderTreeCircles from "../loaderTreeCircles";
 import Swal from "sweetalert2";
-import { formatPageTitle, formatColumnTable } from "@/lib/customFunction";
+import {
+    formatPageTitle,
+    formatColumnTable,
+    formatToCurrency,
+} from "@/lib/customFunction";
 
 type propsType = {
     urlFetch: string;
@@ -113,7 +117,7 @@ const Gird = (props: propsType) => {
                         .delete(urlDelete + dataId)
                         .then((response) => {
                             Swal.fire({
-                                title: "Data " + formatPageTitle(pageTitle[2]),
+                                title: "Data " + pageTitle[2],
                                 text: response.data.message,
                                 icon: response.data.status,
                             }).then((result) => {
@@ -279,7 +283,7 @@ const Gird = (props: propsType) => {
                                                         }
                                                     }}
                                                 >
-                                                    {formatPageTitle(column)}{" "}
+                                                    {column}{" "}
                                                     {column != "No" &&
                                                         column != "Action" &&
                                                         sort.length != 0 &&
@@ -316,10 +320,21 @@ const Gird = (props: propsType) => {
                                                 <td className="text-center">
                                                     {i + 1}
                                                 </td>
-                                                <td>{data.department_name}</td>
-                                                <td>{data.position_name}</td>
                                                 <td className="text-center">
-                                                    {data.grade_level}
+                                                    {data.office_code}
+                                                </td>
+                                                <td>{data.pcode}</td>
+                                                <td>{data.name}</td>
+                                                <td className="text-center">
+                                                    {data.unit}
+                                                </td>
+                                                <td className="text-right">
+                                                    {formatToCurrency(
+                                                        data.price
+                                                    )}
+                                                </td>
+                                                <td className="text-center">
+                                                    {data.status}
                                                 </td>
                                                 <td className="text-nowrap text-center">
                                                     <FontAwesomeIcon

@@ -11,7 +11,7 @@ import SelectedPosition from "@/components/assets/selectedPosition";
 import SelectedDepartment from "@/components/assets/selectedDepartment";
 import SelectedOffice from "@/components/assets/selectedOffice";
 import SelectedGrade from "@/components/assets/selectedGrade";
-import { formatColumnName } from "@/lib/customFunction";
+import { formatPageTitle } from "@/lib/customFunction";
 
 const CreateDepartmentPerPositionPage = () => {
     // ************* ROUTE *************
@@ -96,7 +96,7 @@ const CreateDepartmentPerPositionPage = () => {
             })
             .then((response) => {
                 Swal.fire({
-                    title: "Data " + formatColumnName(pageTitle[2]),
+                    title: "Data " + formatPageTitle(pageTitle[2]),
                     text: response.data.message,
                     icon: response.data.status,
                 }).then((result) => {
@@ -164,7 +164,7 @@ const CreateDepartmentPerPositionPage = () => {
                         <div className="card">
                             <div className="card-header">
                                 <strong>
-                                    Form add {formatColumnName(pageTitle[2])}
+                                    Form add {formatPageTitle(pageTitle[2])}
                                 </strong>
                                 <BackButton />
                             </div>
