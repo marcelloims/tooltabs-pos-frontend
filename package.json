@@ -23,7 +23,7 @@
     "cookies-next": "^4.3.0",
     "cors": "^2.8.5",
     "js-cookie": "^3.0.5",
-    "next": "14.2.16",
+    "next": "^14.2.23",
     "next-auth": "^4.24.10",
     "react": "^18",
     "react-bootstrap": "^2.10.5",
@@ -34,8 +34,9 @@
     "react-radio-group": "^3.0.3",
     "react-router": "^6.28.0",
     "react-router-dom": "^6.28.0",
+    "react-text-mask": "^5.5.0",
     "styled-components": "^6.1.13",
-    "sweetalert2": "^11.14.5",
+    "sweetalert2": "^11.6.13",
     "swr": "^2.2.5"
   },
   "devDependencies": {

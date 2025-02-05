@@ -3,7 +3,7 @@ import BackButton from "@/components/assets/backButton";
 import axios from "@/lib/axios";
 import { getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "../../../../app/myStyle.css";
@@ -16,6 +16,11 @@ type propsType = {
 };
 
 const EditProductPage = (props: propsType) => {
+    // ************* Photo Config *************
+    const inputRef1 = useRef<any>();
+    const inputRef2 = useRef<any>();
+    const inputRef3 = useRef<any>();
+
     // ************* ROUTE *************
     const router = useRouter();
     const pathName = usePathname();
@@ -28,15 +33,21 @@ const EditProductPage = (props: propsType) => {
 
     // ************* STATE *************
     const [loading, setLoading] = useState(false);
+    const [image1, setImage1] = useState<any>();
+    const [image2, setImage2] = useState<any>();
+    const [image3, setImage3] = useState<any>();
+    const [image1Value, setImage1Value] = useState<any>();
+    const [image2Value, setImage2Value] = useState<any>();
+    const [image3Value, setImage3Value] = useState<any>();
     const [fetchCategoryResponse, setFetchCategoryResponse] = useState("");
     const [fetchTypeResponse, setFetchTypeResponse] = useState("");
-    const [id, setProduct] = useState(null);
+    const [id, setProduct] = useState("");
     const [category_id, setCategory] = useState("");
     const [type_id, setType] = useState("");
     const [validateCategory, setValidateCategory] = useState("");
     const [validateType, setValidateType] = useState("");
     // ************* Selected Component End *************
-    const userEmail = getCookie("email");
+    const [userEmail, setUserEmail] = useState(String(getCookie("email")));
     const [pcode, setPcode] = useState("");
     const [name, setName] = useState("");
     const [unit, setUnit] = useState("");
@@ -64,18 +75,21 @@ const EditProductPage = (props: propsType) => {
             setLoading(true);
 
             const dataResponse = await axios.get(`/product/edit/${productId}`);
-            setProduct(dataResponse.data.response[0].id);
-            setCategory(dataResponse.data.response[0].category_id);
-            setType(dataResponse.data.response[0].type_id);
-            setPcode(dataResponse.data.response[0].pcode);
-            setName(dataResponse.data.response[0].name);
-            setUnit(dataResponse.data.response[0].unit);
-            setBrandCode(dataResponse.data.response[0].brand_code);
-            setHightCm(dataResponse.data.response[0].hight_cm);
-            setWidthCm(dataResponse.data.response[0].width_cm);
-            setLongCm(dataResponse.data.response[0].long_cm);
-            setTax(dataResponse.data.response[0].tax);
-            setStatus(dataResponse.data.response[0].status);
+            setProduct(dataResponse.data.response.id);
+            setCategory(dataResponse.data.response.category_id);
+            setType(dataResponse.data.response.type_id);
+            setPcode(dataResponse.data.response.pcode);
+            setName(dataResponse.data.response.name);
+            setUnit(dataResponse.data.response.unit);
+            setBrandCode(dataResponse.data.response.brand_code);
+            setHightCm(dataResponse.data.response.hight_cm);
+            setWidthCm(dataResponse.data.response.width_cm);
+            setLongCm(dataResponse.data.response.long_cm);
+            setTax(dataResponse.data.response.tax);
+            setStatus(dataResponse.data.response.status);
+            setImage1Value(dataResponse.data.response.image1);
+            setImage2Value(dataResponse.data.response.image2);
+            setImage3Value(dataResponse.data.response.image3);
 
             setLoading(false);
         } catch (error) {
@@ -108,21 +122,30 @@ const EditProductPage = (props: propsType) => {
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
 
+        //define formData
+        const formData = new FormData();
+
+        //append data to "formData"
+        formData.append("id", id);
+        formData.append("category_id", category_id);
+        formData.append("type_id", type_id);
+        formData.append("pcode", pcode);
+        formData.append("name", name);
+        formData.append("unit", unit);
+        formData.append("brand_code", brand_code);
+        formData.append("hight_cm", hight_cm);
+        formData.append("width_cm", width_cm);
+        formData.append("long_cm", long_cm);
+        formData.append("tax", tax);
+        formData.append("status", status);
+        formData.append("image1", image1Value);
+        formData.append("image2", image2Value);
+        formData.append("image3", image3Value);
+        formData.append("userEmail", userEmail);
+
         await axios
-            .put("/product/update", {
-                id,
-                category_id,
-                type_id,
-                pcode,
-                name,
-                unit,
-                brand_code,
-                hight_cm,
-                width_cm,
-                long_cm,
-                tax,
-                status,
-                userEmail,
+            .post("/product/update", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
             })
             .then((response) => {
                 Swal.fire({
@@ -163,10 +186,71 @@ const EditProductPage = (props: propsType) => {
         setStatus(data);
     };
 
+    const handleImageClick1 = () => {
+        inputRef1.current.click();
+    };
+
+    const handleImageClick2 = () => {
+        inputRef2.current.click();
+    };
+
+    const handleImageClick3 = () => {
+        inputRef3.current.click();
+    };
+
+    const getImage = async () => {
+        try {
+            setLoading(true);
+            const dataResponse = await axios.get(
+                `/product/getImage/${productId}`
+            );
+            setImage1Value(dataResponse.data.response.image1);
+            setImage2Value(dataResponse.data.response.image2);
+            setImage3Value(dataResponse.data.response.image3);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     // ************* HOOK *************
-    useEffect(() => {}, [loading, fetchCategoryResponse, category_id]);
+    useEffect(() => {}, [
+        loading,
+        id,
+        fetchCategoryResponse,
+        category_id,
+        type_id,
+        pcode,
+        name,
+        unit,
+        brand_code,
+        hight_cm,
+        width_cm,
+        long_cm,
+        tax,
+        status,
+        userEmail,
+        validateCategory,
+        validateType,
+        validatePcode,
+        validateName,
+        validateUnit,
+        validateBrandCode,
+        validateHightCm,
+        validateWidthCm,
+        validateLongCm,
+        validateTax,
+        validateStatus,
+        image1,
+        image1Value,
+        image2,
+        image2Value,
+        image3,
+        image3Value,
+    ]);
 
     useEffect(() => {
+        getImage();
         fetchEdit();
         fetchCategory();
         fetchType();
@@ -435,6 +519,191 @@ const EditProductPage = (props: propsType) => {
                                                     }
                                                     defaultValue={status}
                                                     isLoading={loading}
+                                                />
+                                            </Form.Group>
+                                        </div>
+                                        <div className="form-row">
+                                            <Form.Group className="form-group col-md-4">
+                                                <Form.Label>Image 1</Form.Label>
+                                                {image1 ? (
+                                                    <img
+                                                        src={URL.createObjectURL(
+                                                            image1
+                                                        )}
+                                                        style={{
+                                                            width: "300px",
+                                                            height: "300px",
+                                                        }}
+                                                        alt="image-1"
+                                                        onClick={
+                                                            handleImageClick1
+                                                        }
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src={
+                                                            image1Value
+                                                                ? image1Value
+                                                                : "/static/assets/images/foto-upload.jpg"
+                                                        }
+                                                        style={{
+                                                            width: "300px",
+                                                            height: "300px",
+                                                        }}
+                                                        alt="image-1"
+                                                        onClick={
+                                                            handleImageClick1
+                                                        }
+                                                    />
+                                                )}
+                                                <Form.Control
+                                                    type="file"
+                                                    style={{
+                                                        color: "#0a2d3d",
+                                                        display: "none",
+                                                    }}
+                                                    onChange={(event: any) => {
+                                                        const imageData =
+                                                            event.target
+                                                                .files[0];
+
+                                                        if (
+                                                            !imageData.type.match(
+                                                                "image.*"
+                                                            )
+                                                        ) {
+                                                            setImage1Value("");
+
+                                                            return;
+                                                        }
+                                                        setImage1(imageData);
+                                                        setImage1Value(
+                                                            imageData
+                                                        );
+                                                    }}
+                                                    ref={inputRef1}
+                                                />
+                                            </Form.Group>
+                                            <Form.Group className="form-group col-md-4">
+                                                <Form.Label>Image 2</Form.Label>
+                                                {image2 ? (
+                                                    <img
+                                                        src={URL.createObjectURL(
+                                                            image2
+                                                        )}
+                                                        style={{
+                                                            width: "300px",
+                                                            height: "300px",
+                                                        }}
+                                                        alt="image-2"
+                                                        onClick={
+                                                            handleImageClick2
+                                                        }
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src={
+                                                            image2Value
+                                                                ? image2Value
+                                                                : "/static/assets/images/foto-upload.jpg"
+                                                        }
+                                                        style={{
+                                                            width: "300px",
+                                                            height: "300px",
+                                                        }}
+                                                        alt="image-2"
+                                                        onClick={
+                                                            handleImageClick2
+                                                        }
+                                                    />
+                                                )}
+                                                <Form.Control
+                                                    type="file"
+                                                    style={{
+                                                        color: "#0a2d3d",
+                                                        display: "none",
+                                                    }}
+                                                    onChange={(event: any) => {
+                                                        const imageData =
+                                                            event.target
+                                                                .files[0];
+
+                                                        if (
+                                                            !imageData.type.match(
+                                                                "image.*"
+                                                            )
+                                                        ) {
+                                                            setImage2Value("");
+
+                                                            return;
+                                                        }
+                                                        setImage2(imageData);
+                                                        setImage2Value(
+                                                            imageData
+                                                        );
+                                                    }}
+                                                    ref={inputRef2}
+                                                />
+                                            </Form.Group>
+                                            <Form.Group className="form-group col-md-4">
+                                                <Form.Label>Image 3</Form.Label>
+                                                {image3 ? (
+                                                    <img
+                                                        src={URL.createObjectURL(
+                                                            image3
+                                                        )}
+                                                        style={{
+                                                            width: "300px",
+                                                            height: "300px",
+                                                        }}
+                                                        alt="image-3"
+                                                        onClick={
+                                                            handleImageClick3
+                                                        }
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src={
+                                                            image3Value
+                                                                ? image3Value
+                                                                : "/static/assets/images/foto-upload.jpg"
+                                                        }
+                                                        style={{
+                                                            width: "300px",
+                                                            height: "300px",
+                                                        }}
+                                                        alt="image-3"
+                                                        onClick={
+                                                            handleImageClick3
+                                                        }
+                                                    />
+                                                )}
+                                                <Form.Control
+                                                    type="file"
+                                                    style={{
+                                                        color: "#0a2d3d",
+                                                        display: "none",
+                                                    }}
+                                                    onChange={(event: any) => {
+                                                        const imageData =
+                                                            event.target
+                                                                .files[0];
+
+                                                        if (
+                                                            !imageData.type.match(
+                                                                "image.*"
+                                                            )
+                                                        ) {
+                                                            setImage3Value("");
+
+                                                            return;
+                                                        }
+                                                        setImage3(imageData);
+                                                        setImage3Value(
+                                                            imageData
+                                                        );
+                                                    }}
+                                                    ref={inputRef3}
                                                 />
                                             </Form.Group>
                                         </div>
