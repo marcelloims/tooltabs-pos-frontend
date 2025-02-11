@@ -24,6 +24,7 @@ const EditProductPage = (props: propsType) => {
     // ************* ROUTE *************
     const router = useRouter();
     const pathName = usePathname();
+    const public_url = "http://127.0.0.1:8000/product/";
 
     // destructuring props
     const { productId } = props;
@@ -50,6 +51,7 @@ const EditProductPage = (props: propsType) => {
     const [userEmail, setUserEmail] = useState(String(getCookie("email")));
     const [pcode, setPcode] = useState("");
     const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
     const [unit, setUnit] = useState("");
     const [brand_code, setBrandCode] = useState("");
     const [hight_cm, setHightCm] = useState("");
@@ -60,6 +62,7 @@ const EditProductPage = (props: propsType) => {
     // ************* STATE VALIDATION *************
     const [validatePcode, setValidatePcode] = useState("");
     const [validateName, setValidateName] = useState("");
+    const [validateDescription, setValidateDescription] = useState("");
     const [validateUnit, setValidateUnit] = useState("");
     const [validateBrandCode, setValidateBrandCode] = useState("");
     const [validateHightCm, setValidateHightCm] = useState("");
@@ -80,6 +83,7 @@ const EditProductPage = (props: propsType) => {
             setType(dataResponse.data.response.type_id);
             setPcode(dataResponse.data.response.pcode);
             setName(dataResponse.data.response.name);
+            setDescription(dataResponse.data.response.description);
             setUnit(dataResponse.data.response.unit);
             setBrandCode(dataResponse.data.response.brand_code);
             setHightCm(dataResponse.data.response.hight_cm);
@@ -131,6 +135,7 @@ const EditProductPage = (props: propsType) => {
         formData.append("type_id", type_id);
         formData.append("pcode", pcode);
         formData.append("name", name);
+        formData.append("description", description);
         formData.append("unit", unit);
         formData.append("brand_code", brand_code);
         formData.append("hight_cm", hight_cm);
@@ -163,6 +168,7 @@ const EditProductPage = (props: propsType) => {
                 setValidateType(error.response.data.request.type_id);
                 setValidatePcode(error.response.data.request.pcode);
                 setValidateName(error.response.data.request.name);
+                setValidateDescription(error.response.data.request.description);
                 setValidateUnit(error.response.data.request.unit);
                 setValidateBrandCode(error.response.data.request.brand_code);
                 setValidateHightCm(error.response.data.request.hight_cm);
@@ -222,6 +228,7 @@ const EditProductPage = (props: propsType) => {
         type_id,
         pcode,
         name,
+        description,
         unit,
         brand_code,
         hight_cm,
@@ -234,6 +241,7 @@ const EditProductPage = (props: propsType) => {
         validateType,
         validatePcode,
         validateName,
+        validateDescription,
         validateUnit,
         validateBrandCode,
         validateHightCm,
@@ -340,6 +348,33 @@ const EditProductPage = (props: propsType) => {
                                                     value={name}
                                                     onChange={(event) =>
                                                         setName(
+                                                            event.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </Form.Group>
+                                            <Form.Group className="form-group col-md-6">
+                                                <Form.Label>
+                                                    Description
+                                                </Form.Label>
+                                                {validateDescription && (
+                                                    <p className="validation-custom">
+                                                        {validateDescription}
+                                                    </p>
+                                                )}
+                                                <Form.Control
+                                                    type="text"
+                                                    className={
+                                                        "bg-text-custom " +
+                                                        (validateDescription
+                                                            ? "is-invalid"
+                                                            : "")
+                                                    }
+                                                    placeholder="Input code name"
+                                                    style={{ color: "#0a2d3d" }}
+                                                    value={description}
+                                                    onChange={(event) =>
+                                                        setDescription(
                                                             event.target.value
                                                         )
                                                     }
@@ -543,7 +578,8 @@ const EditProductPage = (props: propsType) => {
                                                     <img
                                                         src={
                                                             image1Value
-                                                                ? image1Value
+                                                                ? public_url +
+                                                                  image1Value
                                                                 : "/static/assets/images/foto-upload.jpg"
                                                         }
                                                         style={{
@@ -604,7 +640,8 @@ const EditProductPage = (props: propsType) => {
                                                     <img
                                                         src={
                                                             image2Value
-                                                                ? image2Value
+                                                                ? public_url +
+                                                                  image2Value
                                                                 : "/static/assets/images/foto-upload.jpg"
                                                         }
                                                         style={{
@@ -665,7 +702,8 @@ const EditProductPage = (props: propsType) => {
                                                     <img
                                                         src={
                                                             image3Value
-                                                                ? image3Value
+                                                                ? public_url +
+                                                                  image3Value
                                                                 : "/static/assets/images/foto-upload.jpg"
                                                         }
                                                         style={{
