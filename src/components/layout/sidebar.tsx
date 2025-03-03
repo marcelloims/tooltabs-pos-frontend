@@ -2,8 +2,10 @@
 import axios from "@/lib/axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+    faDashboard,
     faCircleChevronRight,
     faVials,
+    faCashRegister,
     faVial,
     faBuilding,
     faFlaskVial,
@@ -98,6 +100,8 @@ const Sidebar = () => {
 
     useEffect(() => {
         library.add(
+            faDashboard,
+            faCashRegister,
             faCircleChevronRight,
             faBuilding,
             faLandmark,
@@ -163,20 +167,97 @@ const Sidebar = () => {
                                                 </span>
                                             </Link>
                                         </li>
-                                    ) : (
-                                        <li key={i}>
+                                    ) : menu.submenus.length > 0 ? (
+                                        <li
+                                            key={i}
+                                            className={
+                                                expand === 1 &&
+                                                expandMenu === menu.id
+                                                    ? "mm-active"
+                                                    : ""
+                                            }
+                                        >
                                             <Link
-                                                href={menu.url}
-                                                className="ai-icon"
-                                                aria-expanded="false"
+                                                href={menu.url ? menu.url : "#"}
+                                                className={
+                                                    expand === 1 &&
+                                                    expandMenu === menu.id
+                                                        ? "has-arrow ai-icon"
+                                                        : "has-arrow ai-icon"
+                                                }
+                                                aria-expanded={
+                                                    expand === 1 &&
+                                                    expandMenu === menu.id
+                                                        ? "true"
+                                                        : "false"
+                                                }
+                                                onClick={() => {
+                                                    if (!menu.url) {
+                                                        getSubMenu(
+                                                            menu.id,
+                                                            menu.expand
+                                                        );
+                                                    }
+                                                }}
                                             >
-                                                <i
-                                                    className={menu.icon}
-                                                    style={{ color: "#0a2e3d" }}
-                                                ></i>
+                                                <FontAwesomeIcon
+                                                    icon={menu.icon}
+                                                    style={{
+                                                        color: "#0a2e3d",
+                                                    }}
+                                                />
+
                                                 <span className="nav-text">
                                                     {menu.name}
                                                 </span>
+                                            </Link>
+                                            {expand === 1 &&
+                                                expandMenu === menu.id && (
+                                                    <ul
+                                                        aria-expanded="false"
+                                                        className="mm-collapse mm-show"
+                                                    >
+                                                        {menu.submenus?.map(
+                                                            (
+                                                                submenu: any,
+                                                                i: any
+                                                            ) => (
+                                                                <li key={i}>
+                                                                    <Link
+                                                                        href={
+                                                                            submenu.url
+                                                                        }
+                                                                    >
+                                                                        <FontAwesomeIcon
+                                                                            icon={
+                                                                                submenu.icon
+                                                                            }
+                                                                            className="mr-2"
+                                                                            style={{
+                                                                                color: "#0a2e3d",
+                                                                            }}
+                                                                        />
+                                                                        {
+                                                                            submenu.name
+                                                                        }
+                                                                    </Link>
+                                                                </li>
+                                                            )
+                                                        )}
+                                                    </ul>
+                                                )}
+                                        </li>
+                                    ) : (
+                                        <li key={i}>
+                                            <Link href={menu.url}>
+                                                <FontAwesomeIcon
+                                                    icon={menu.icon}
+                                                    className="mr-2"
+                                                    style={{
+                                                        color: "#0a2e3d",
+                                                    }}
+                                                />
+                                                {menu.name}
                                             </Link>
                                         </li>
                                     )
