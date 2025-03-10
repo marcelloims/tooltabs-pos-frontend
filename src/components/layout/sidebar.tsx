@@ -15,6 +15,7 @@ import {
     faBuildingUser,
     faBowlRice,
     faFile,
+    faGauge
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getCookie } from "cookies-next";
@@ -112,7 +113,8 @@ const Sidebar = () => {
             faVials,
             faVial,
             faBowlRice,
-            faFile
+            faFile,
+            faGauge
         );
 
         // reset menu if refresh page
@@ -135,7 +137,7 @@ const Sidebar = () => {
         getMenus();
     }, []);
 
-    useEffect(() => {}, [counter, menus, expand, expandMenu]);
+    useEffect(() => { }, [counter, menus, expand, expandMenu]);
 
     return (
         <>
@@ -172,7 +174,7 @@ const Sidebar = () => {
                                             key={i}
                                             className={
                                                 expand === 1 &&
-                                                expandMenu === menu.id
+                                                    expandMenu === menu.id
                                                     ? "mm-active"
                                                     : ""
                                             }
@@ -181,13 +183,13 @@ const Sidebar = () => {
                                                 href={menu.url ? menu.url : "#"}
                                                 className={
                                                     expand === 1 &&
-                                                    expandMenu === menu.id
+                                                        expandMenu === menu.id
                                                         ? "has-arrow ai-icon"
                                                         : "has-arrow ai-icon"
                                                 }
                                                 aria-expanded={
                                                     expand === 1 &&
-                                                    expandMenu === menu.id
+                                                        expandMenu === menu.id
                                                         ? "true"
                                                         : "false"
                                                 }
@@ -293,7 +295,7 @@ const Sidebar = () => {
                                             key={i}
                                             className={
                                                 expand === 1 &&
-                                                expandMenu === menu.id
+                                                    expandMenu === menu.id
                                                     ? "mm-active"
                                                     : ""
                                             }
@@ -302,13 +304,13 @@ const Sidebar = () => {
                                                 href={menu.url ? menu.url : "#"}
                                                 className={
                                                     expand === 1 &&
-                                                    expandMenu === menu.id
+                                                        expandMenu === menu.id
                                                         ? "has-arrow ai-icon"
                                                         : "has-arrow ai-icon"
                                                 }
                                                 aria-expanded={
                                                     expand === 1 &&
-                                                    expandMenu === menu.id
+                                                        expandMenu === menu.id
                                                         ? "true"
                                                         : "false"
                                                 }
