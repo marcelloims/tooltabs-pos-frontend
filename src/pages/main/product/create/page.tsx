@@ -42,6 +42,7 @@ const CreateProductPage = () => {
     const [userEmail, setUserEmail] = useState(String(getCookie("email")));
     const [pcode, setPcode] = useState("");
     const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
     const [unit, setUnit] = useState("");
     const [brand_code, setBrandCode] = useState("");
     const [hight_cm, setHightCm] = useState("");
@@ -52,6 +53,7 @@ const CreateProductPage = () => {
     // ************* STATE VALIDATION *************
     const [validatePcode, setValidatePcode] = useState("");
     const [validateName, setValidateName] = useState("");
+    const [validateDescription, setValidateDescription] = useState("");
     const [validateUnit, setValidateUnit] = useState("");
     const [validateBrandCode, setValidateBrandCode] = useState("");
     const [validateHightCm, setValidateHightCm] = useState("");
@@ -94,6 +96,7 @@ const CreateProductPage = () => {
         formData.append("type_id", type_id);
         formData.append("pcode", pcode);
         formData.append("name", name);
+        formData.append("description", description);
         formData.append("unit", unit);
         formData.append("brand_code", brand_code);
         formData.append("hight_cm", hight_cm);
@@ -126,6 +129,7 @@ const CreateProductPage = () => {
                 setValidateType(error.response.data.request.type_id);
                 setValidatePcode(error.response.data.request.pcode);
                 setValidateName(error.response.data.request.name);
+                setValidateDescription(error.response.data.request.description);
                 setValidateUnit(error.response.data.request.unit);
                 setValidateBrandCode(error.response.data.request.brand_code);
                 setValidateHightCm(error.response.data.request.hight_cm);
@@ -169,6 +173,7 @@ const CreateProductPage = () => {
         type_id,
         pcode,
         name,
+        description,
         unit,
         brand_code,
         hight_cm,
@@ -181,6 +186,7 @@ const CreateProductPage = () => {
         validateType,
         validatePcode,
         validateName,
+        validateDescription,
         validateUnit,
         validateBrandCode,
         validateHightCm,
@@ -274,11 +280,38 @@ const CreateProductPage = () => {
                                                             ? "is-invalid"
                                                             : "")
                                                     }
-                                                    placeholder="Input code name"
+                                                    placeholder="Input product name"
                                                     style={{ color: "#0a2d3d" }}
                                                     value={name}
                                                     onChange={(event) =>
                                                         setName(
+                                                            event.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </Form.Group>
+                                            <Form.Group className="form-group col-md-6">
+                                                <Form.Label>
+                                                    Description
+                                                </Form.Label>
+                                                {validateDescription && (
+                                                    <p className="validation-custom">
+                                                        {validateDescription}
+                                                    </p>
+                                                )}
+                                                <Form.Control
+                                                    type="text"
+                                                    className={
+                                                        "bg-text-custom " +
+                                                        (validateDescription
+                                                            ? "is-invalid"
+                                                            : "")
+                                                    }
+                                                    placeholder="Input decription"
+                                                    style={{ color: "#0a2d3d" }}
+                                                    value={description}
+                                                    onChange={(event) =>
+                                                        setDescription(
                                                             event.target.value
                                                         )
                                                     }
