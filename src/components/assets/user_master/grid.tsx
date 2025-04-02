@@ -159,7 +159,7 @@ const Grid = (props: propsType) => {
         <div className="table-responsive mt-3">
             <div className="card">
                 <div className="card-header">
-                    <h4 className="card-title">Data Type</h4>
+                    <h4 className="card-title">Data User Master</h4>
                 </div>
                 <div className="card-body">
                     <div className="table-responsive">
@@ -325,7 +325,10 @@ const Grid = (props: propsType) => {
                                                 <td className="text-center">
                                                     {i + 1}
                                                 </td>
-                                                <td>{data.name}</td>
+                                                <td className="text-nowrap">{data.name}</td>
+                                                <td>{data.email}</td>
+                                                <td>{data.telephone}</td>
+                                                <td>{data.activated}</td>
                                                 <td className="text-nowrap text-center">
                                                     <FontAwesomeIcon
                                                         icon={faEdit}

@@ -42,7 +42,7 @@ interface Entity {
     total: number;
 }
 
-const Gird = (props: propsType) => {
+const Grid = (props: propsType) => {
     // for route
     const router = useRouter();
     const pathName = usePathname();
@@ -402,4 +402,4 @@ const Gird = (props: propsType) => {
     );
 };
 
-export default Gird;
+export default Grid;

@@ -26,7 +26,7 @@ const SelectedType = ({
 
     return (
         <div>
-            <Form.Label>Type</Form.Label>
+            <Form.Label>Type <span className="text-red">*</span></Form.Label>
 
             {validateType && (
                 <p className="validation-custom">{validateType}</p>

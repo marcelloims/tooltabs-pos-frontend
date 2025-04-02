@@ -26,7 +26,7 @@ const SelectedCategori = ({
 
     return (
         <div>
-            <Form.Label>Categori</Form.Label>
+            <Form.Label>Categori <span className="text-red">*</span></Form.Label>
 
             {validateCategory && (
                 <p className="validation-custom">{validateCategory}</p>

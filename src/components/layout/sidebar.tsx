@@ -15,7 +15,10 @@ import {
     faBuildingUser,
     faBowlRice,
     faFile,
-    faGauge
+    faGauge,
+    faFileInvoice,
+    faUser,
+    faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getCookie } from "cookies-next";
@@ -114,7 +117,10 @@ const Sidebar = () => {
             faVial,
             faBowlRice,
             faFile,
-            faGauge
+            faGauge,
+            faFileInvoice,
+            faUser,
+            faUserGroup
         );
 
         // reset menu if refresh page

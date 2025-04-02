@@ -140,6 +140,7 @@ const PosPage = () => {
                                 <div className="row py-4">
                                     {fetchMenu?.response.map((menu) => (
                                         <ItemCart
+                                            key={menu.id}
                                             id={menu.id}
                                             image1={public_path + menu.image1}
                                             name={menu.name}
