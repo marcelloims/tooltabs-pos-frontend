@@ -12,6 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import LoaderTreeCircles from "../loaderTreeCircles";
+import { getCookie } from "cookies-next";
 
 type propsType = {
     urlFetch: string;
@@ -56,7 +57,8 @@ const Grid = (props: propsType) => {
     const [pagination, setPagination] = useState("");
 
     // Satup Title Per-Page
-    let pageTitle = String(pathName).split("/");
+    let pageTitle   = String(pathName).split("/");
+    let tenantId    = getCookie('tenant_id');
 
     // Props
     const { urlFetch, urlDelete, columns, urlRoute } = props;
@@ -85,6 +87,7 @@ const Grid = (props: propsType) => {
 
             const dataResponse = await axios.get(!paging ? urlFetch : paging, {
                 params: {
+                    tenantId,
                     perPage,
                     search,
                     columns,

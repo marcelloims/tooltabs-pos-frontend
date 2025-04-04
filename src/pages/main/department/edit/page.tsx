@@ -32,6 +32,8 @@ const EditDepartmentPage = (props: propsType) => {
     const [validateName, setValidateName] = useState("");
     const [validateCode, setValidateCode] = useState("");
     const userEmail = getCookie("email");
+    const userTenantId = getCookie("tenant_id");
+    const userOfficeId = getCookie("office_id");
 
     // Function
     const fetchEdit = async () => {
@@ -59,6 +61,8 @@ const EditDepartmentPage = (props: propsType) => {
                 name,
                 code,
                 userEmail,
+                userTenantId,
+                userOfficeId,
             })
             .then((response) => {
                 Swal.fire({

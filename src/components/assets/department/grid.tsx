@@ -12,6 +12,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import LoaderTreeCircles from "../loaderTreeCircles";
+import { getCookie } from "cookies-next";
 
 type propsType = {
     urlFetch: string;
@@ -57,6 +58,8 @@ const Grid = (props: propsType) => {
 
     // Satup Title Per-Page
     let pageTitle = String(pathName).split("/");
+    let userTenantId = getCookie("tenant_id");
+    let userOfficeId = getCookie("office_id");
 
     // Props
     const { urlFetch, urlDelete, columns, urlRoute } = props;
@@ -85,6 +88,8 @@ const Grid = (props: propsType) => {
 
             const dataResponse = await axios.get(!paging ? urlFetch : paging, {
                 params: {
+                    userTenantId,
+                    userOfficeId,
                     perPage,
                     search,
                     columns,
@@ -328,26 +333,34 @@ const Grid = (props: propsType) => {
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
                                                 <td className="text-nowrap text-center">
-                                                    <FontAwesomeIcon
-                                                        icon={faEdit}
-                                                        className="btn btn-sm btn-warning mr-1"
-                                                        onClick={() => {
-                                                            router.push(
-                                                                urlRoute +
-                                                                    "edit/" +
-                                                                    data.id
-                                                            );
-                                                        }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faTrash}
-                                                        className="btn btn-sm btn-danger ml-1"
-                                                        onClick={() => {
-                                                            handlerDelete(
-                                                                data.id
-                                                            );
-                                                        }}
-                                                    />
+                                                    {data.code === "ANG" ? (
+                                                        <span className="btn btn-sm btn-info">
+                                                            No Action
+                                                        </span>
+                                                    ) : (
+                                                        <div>
+                                                            <FontAwesomeIcon
+                                                                icon={faEdit}
+                                                                className="btn btn-sm btn-warning mr-1"
+                                                                onClick={() => {
+                                                                    router.push(
+                                                                        urlRoute +
+                                                                            "edit/" +
+                                                                            data.id
+                                                                    );
+                                                                }}
+                                                            />
+                                                            <FontAwesomeIcon
+                                                                icon={faTrash}
+                                                                className="btn btn-sm btn-danger ml-1"
+                                                                onClick={() => {
+                                                                    handlerDelete(
+                                                                        data.id
+                                                                    );
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    )}
                                                 </td>
                                             </tr>
                                         )

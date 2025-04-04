@@ -18,7 +18,8 @@ import {
     faGauge,
     faFileInvoice,
     faUser,
-    faUserGroup
+    faUserGroup,
+    faUnlock,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getCookie } from "cookies-next";
@@ -35,6 +36,9 @@ interface Response {
 const Sidebar = () => {
     // For Route
     const router = useRouter();
+    let userTenantId = getCookie("tenant_id");
+    let userOfficeId = getCookie("office_id");
+    let userDepartmentPerPositionId = getCookie("department_per_position_id");
 
     // State
     const [counter, setCounter] = useState(1);
@@ -120,7 +124,8 @@ const Sidebar = () => {
             faGauge,
             faFileInvoice,
             faUser,
-            faUserGroup
+            faUserGroup,
+            faUnlock
         );
 
         // reset menu if refresh page
@@ -131,9 +136,13 @@ const Sidebar = () => {
             // Filter menu by user login
 
             try {
-                const response = await axios.get(
-                    `/menu/fetch/${getCookie("department_per_position_id")}`
-                );
+                const response = await axios.get("/menu/fetch/", {
+                    params: {
+                        userTenantId,
+                        userOfficeId,
+                        userDepartmentPerPositionId,
+                    },
+                });
 
                 setMenus(response.data.response);
             } catch (error) {
@@ -143,7 +152,7 @@ const Sidebar = () => {
         getMenus();
     }, []);
 
-    useEffect(() => { }, [counter, menus, expand, expandMenu]);
+    useEffect(() => {}, [counter, menus, expand, expandMenu]);
 
     return (
         <>
@@ -180,7 +189,7 @@ const Sidebar = () => {
                                             key={i}
                                             className={
                                                 expand === 1 &&
-                                                    expandMenu === menu.id
+                                                expandMenu === menu.id
                                                     ? "mm-active"
                                                     : ""
                                             }
@@ -189,13 +198,13 @@ const Sidebar = () => {
                                                 href={menu.url ? menu.url : "#"}
                                                 className={
                                                     expand === 1 &&
-                                                        expandMenu === menu.id
+                                                    expandMenu === menu.id
                                                         ? "has-arrow ai-icon"
                                                         : "has-arrow ai-icon"
                                                 }
                                                 aria-expanded={
                                                     expand === 1 &&
-                                                        expandMenu === menu.id
+                                                    expandMenu === menu.id
                                                         ? "true"
                                                         : "false"
                                                 }
@@ -301,7 +310,7 @@ const Sidebar = () => {
                                             key={i}
                                             className={
                                                 expand === 1 &&
-                                                    expandMenu === menu.id
+                                                expandMenu === menu.id
                                                     ? "mm-active"
                                                     : ""
                                             }
@@ -310,13 +319,13 @@ const Sidebar = () => {
                                                 href={menu.url ? menu.url : "#"}
                                                 className={
                                                     expand === 1 &&
-                                                        expandMenu === menu.id
+                                                    expandMenu === menu.id
                                                         ? "has-arrow ai-icon"
                                                         : "has-arrow ai-icon"
                                                 }
                                                 aria-expanded={
                                                     expand === 1 &&
-                                                        expandMenu === menu.id
+                                                    expandMenu === menu.id
                                                         ? "true"
                                                         : "false"
                                                 }

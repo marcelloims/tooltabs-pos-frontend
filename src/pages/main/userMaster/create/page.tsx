@@ -7,6 +7,7 @@ import React, { SyntheticEvent, useState } from "react";
 import { Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "../../../../app/myStyle.css";
+import { formatPageTitle } from "@/lib/customFunction";
 
 const CreateUserMasterPage = () => {
     // for route
@@ -53,7 +54,7 @@ const CreateUserMasterPage = () => {
                     <div className="col-lg-12">
                         <div className="card">
                             <div className="card-header">
-                                <strong>Form add {pageTitle[2]}</strong>
+                                <strong>Form add {formatPageTitle(pageTitle[2])}</strong>
                                 <BackButton />
                             </div>
                             <div className="card-body">

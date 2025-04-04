@@ -9,6 +9,7 @@ const department_per_positionPerPositionPage = () => {
         "department_name",
         "position_name",
         "grade_level",
+        "office_name",
     ]);
     const urlFetch = "/department_per_position/fetch";
     const urlDelete = "/department_per_position/delete/";

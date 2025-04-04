@@ -22,6 +22,8 @@ const CreatePositionPage = () => {
     const [validateCode, setValidateCode] = useState("");
     const [validateName, setValidateName] = useState("");
     const userEmail = getCookie("email");
+    const userTenantId = getCookie("tenant_id");
+    const userOfficeId = getCookie("office_id");
 
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
@@ -31,6 +33,8 @@ const CreatePositionPage = () => {
                 code,
                 name,
                 userEmail,
+                userTenantId,
+                userOfficeId,
             })
             .then((response) => {
                 Swal.fire({
