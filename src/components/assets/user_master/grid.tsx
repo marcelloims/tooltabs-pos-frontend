@@ -12,7 +12,6 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import LoaderTreeCircles from "../loaderTreeCircles";
-import { getCookie } from "cookies-next";
 
 type propsType = {
     urlFetch: string;
@@ -57,8 +56,7 @@ const Grid = (props: propsType) => {
     const [pagination, setPagination] = useState("");
 
     // Satup Title Per-Page
-    let pageTitle   = String(pathName).split("/");
-    let tenantId    = getCookie('tenant_id');
+    let pageTitle = String(pathName).split("/");
 
     // Props
     const { urlFetch, urlDelete, columns, urlRoute } = props;
@@ -87,7 +85,6 @@ const Grid = (props: propsType) => {
 
             const dataResponse = await axios.get(!paging ? urlFetch : paging, {
                 params: {
-                    tenantId,
                     perPage,
                     search,
                     columns,
@@ -162,7 +159,7 @@ const Grid = (props: propsType) => {
         <div className="table-responsive mt-3">
             <div className="card">
                 <div className="card-header">
-                    <h4 className="card-title">Data Office</h4>
+                    <h4 className="card-title">Data User Master</h4>
                 </div>
                 <div className="card-body">
                     <div className="table-responsive">
@@ -328,23 +325,11 @@ const Grid = (props: propsType) => {
                                                 <td className="text-center">
                                                     {i + 1}
                                                 </td>
-                                                <td>{data.code}</td>
-                                                <td>{data.name}</td>
+                                                <td className="text-nowrap">{data.name}</td>
                                                 <td>{data.email}</td>
-                                                <td>{data.phone}</td>
+                                                <td>{data.telephone}</td>
+                                                <td>{data.activated}</td>
                                                 <td className="text-nowrap text-center">
-                                                    <FontAwesomeIcon
-                                                        icon={faCircleInfo}
-                                                        className="btn btn-sm btn-info mr-1"
-                                                        onClick={() => {
-                                                            router.push(
-                                                                urlRoute +
-                                                                    "detail/" +
-                                                                    data.id
-                                                            );
-                                                        }}
-                                                    />
-
                                                     <FontAwesomeIcon
                                                         icon={faEdit}
                                                         className="btn btn-sm btn-warning mr-1"

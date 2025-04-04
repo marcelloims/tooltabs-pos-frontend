@@ -25,7 +25,7 @@ const SelectedActivation = ({
 
     return (
         <div>
-            <Form.Label>Status</Form.Label>
+            <Form.Label>Status <span className="text-red">*</span></Form.Label>
 
             {validateActivation && (
                 <p className="validation-custom">{validateActivation}</p>

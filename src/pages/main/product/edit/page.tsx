@@ -304,7 +304,7 @@ const EditProductPage = (props: propsType) => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Pcode</Form.Label>
+                                                <Form.Label>Pcode <span className="text-red">*</span></Form.Label>
                                                 {validatePcode && (
                                                     <p className="validation-custom">
                                                         {validatePcode}
@@ -329,7 +329,7 @@ const EditProductPage = (props: propsType) => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Name</Form.Label>
+                                                <Form.Label>Name <span className="text-red">*</span></Form.Label>
                                                 {validateName && (
                                                     <p className="validation-custom">
                                                         {validateName}
@@ -355,7 +355,7 @@ const EditProductPage = (props: propsType) => {
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
                                                 <Form.Label>
-                                                    Description
+                                                    Description <span className="text-red">*</span>
                                                 </Form.Label>
                                                 {validateDescription && (
                                                     <p className="validation-custom">
@@ -381,7 +381,7 @@ const EditProductPage = (props: propsType) => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Unit</Form.Label>
+                                                <Form.Label>Unit <span className="text-red">*</span></Form.Label>
                                                 {validateUnit && (
                                                     <p className="validation-custom">
                                                         {validateUnit}

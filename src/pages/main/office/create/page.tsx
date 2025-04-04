@@ -27,7 +27,8 @@ const CreateOfficePage = () => {
     const [validateEmail, setValidateEmail] = useState("");
     const [validatePhone, setValidatePhone] = useState("");
     const [validateAddress, setValidateAddress] = useState("");
-    const userEmail = getCookie("email");
+    const userEmail     = getCookie("email");
+    const userTenantId  = getCookie("tenant_id");
 
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
@@ -40,6 +41,7 @@ const CreateOfficePage = () => {
                 phone,
                 address,
                 userEmail,
+                userTenantId
             })
             .then((response) => {
                 Swal.fire({

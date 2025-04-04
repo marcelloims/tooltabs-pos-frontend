@@ -36,7 +36,9 @@ const CreateDepartmentPerPositionPage = () => {
     const [validateDepartment, setValidateDepartment] = useState("");
     const [validatePosition, setValidatePosition] = useState("");
     const [validateGrade, setValidateGrade] = useState("");
-    const userEmail = getCookie("email");
+
+    let userEmail = getCookie("email");
+    let userTenantId = getCookie("tenant_id");
 
     // ************* API *************
     const fetchOffice = async () => {
@@ -93,6 +95,7 @@ const CreateDepartmentPerPositionPage = () => {
                 position_id,
                 grade_id,
                 userEmail,
+                userTenantId,
             })
             .then((response) => {
                 Swal.fire({

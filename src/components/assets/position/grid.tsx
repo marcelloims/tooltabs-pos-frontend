@@ -42,7 +42,7 @@ interface Entity {
     total: number;
 }
 
-const Gird = (props: propsType) => {
+const Grid = (props: propsType) => {
     // for route
     const router = useRouter();
     const pathName = usePathname();
@@ -328,26 +328,34 @@ const Gird = (props: propsType) => {
                                                 <td>{data.code}</td>
                                                 <td>{data.name}</td>
                                                 <td className="text-nowrap text-center">
-                                                    <FontAwesomeIcon
-                                                        icon={faEdit}
-                                                        className="btn btn-sm btn-warning mr-1"
-                                                        onClick={() => {
-                                                            router.push(
-                                                                urlRoute +
-                                                                    "edit/" +
-                                                                    data.id
-                                                            );
-                                                        }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faTrash}
-                                                        className="btn btn-sm btn-danger ml-1"
-                                                        onClick={() => {
-                                                            handlerDelete(
-                                                                data.id
-                                                            );
-                                                        }}
-                                                    />
+                                                    {data.code === "OWNER" ? (
+                                                        <span className="btn btn-sm btn-info">
+                                                            No Action
+                                                        </span>
+                                                    ) : (
+                                                        <div>
+                                                            <FontAwesomeIcon
+                                                                icon={faEdit}
+                                                                className="btn btn-sm btn-warning mr-1"
+                                                                onClick={() => {
+                                                                    router.push(
+                                                                        urlRoute +
+                                                                            "edit/" +
+                                                                            data.id
+                                                                    );
+                                                                }}
+                                                            />
+                                                            <FontAwesomeIcon
+                                                                icon={faTrash}
+                                                                className="btn btn-sm btn-danger ml-1"
+                                                                onClick={() => {
+                                                                    handlerDelete(
+                                                                        data.id
+                                                                    );
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    )}
                                                 </td>
                                             </tr>
                                         )
@@ -402,4 +410,4 @@ const Gird = (props: propsType) => {
     );
 };
 
-export default Gird;
+export default Grid;

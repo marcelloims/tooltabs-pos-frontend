@@ -32,6 +32,7 @@ const LoginForm = () => {
                     response.data.response.user.department_per_position_id
                 );
                 setCookie("email", response.data.response.user.email);
+                setCookie("tenant_id", response.data.response.user.tenant_id);
                 setCookie("office_id", response.data.response.user.office_id);
 
                 setEmail("");

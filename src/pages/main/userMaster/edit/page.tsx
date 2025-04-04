@@ -10,16 +10,16 @@ import "../../../../app/myStyle.css";
 import LoaderTreeCircles from "@/components/assets/loaderTreeCircles";
 
 type propsType = {
-    positionId: string;
+    typeId: string;
 };
 
-const EditDepartmentPage = (props: propsType) => {
+const EditTypePage = (props: propsType) => {
     // for route
     const router = useRouter();
     const pathName = usePathname();
 
     // destructuring props
-    const { positionId } = props;
+    const { typeId } = props;
 
     // Satup Title Per-Page
     let pageTitle = String(pathName).split("/");
@@ -32,17 +32,13 @@ const EditDepartmentPage = (props: propsType) => {
     const [validateName, setValidateName] = useState("");
     const [validateCode, setValidateCode] = useState("");
     const userEmail = getCookie("email");
-    const userTenantId = getCookie("tenant_id");
-    const userOfficeId = getCookie("office_id");
 
     // Function
     const fetchEdit = async () => {
         try {
             setLoading(true);
 
-            const dataResponse = await axios.get(
-                `/department/edit/${positionId}`
-            );
+            const dataResponse = await axios.get(`/type/edit/${typeId}`);
             setId(dataResponse.data.response[0].id);
             setCode(dataResponse.data.response[0].code);
             setName(dataResponse.data.response[0].name);
@@ -56,13 +52,11 @@ const EditDepartmentPage = (props: propsType) => {
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
         await axios
-            .put("/department/update", {
+            .put("/type/update", {
                 id,
                 name,
                 code,
                 userEmail,
-                userTenantId,
-                userOfficeId,
             })
             .then((response) => {
                 Swal.fire({
@@ -71,7 +65,7 @@ const EditDepartmentPage = (props: propsType) => {
                     icon: response.data.status,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        router.push("/main/department");
+                        router.push("/main/type");
                     }
                 });
             })
@@ -106,40 +100,10 @@ const EditDepartmentPage = (props: propsType) => {
                                         <Form onSubmit={handleSubmit}>
                                             <div className="form-row">
                                                 <Form.Group className="form-group col-md-6">
-                                                    <Form.Label>
-                                                        Code
-                                                    </Form.Label>
-                                                    {validateCode && (
-                                                        <p className="validation-custom">
-                                                            {validateCode}
-                                                        </p>
-                                                    )}
-                                                    <Form.Control
-                                                        type="text"
-                                                        className={
-                                                            "bg-text-custom " +
-                                                            (validateCode
-                                                                ? "is-invalid"
-                                                                : "")
-                                                        }
-                                                        placeholder="Input code department"
-                                                        style={{
-                                                            color: "#0a2d3d",
-                                                        }}
-                                                        value={code}
-                                                        onChange={(event) =>
-                                                            setCode(
-                                                                event.target
-                                                                    .value
-                                                            )
-                                                        }
-                                                    />
-                                                </Form.Group>
-                                                <Form.Group className="form-group col-md-6">
                                                     <Form.Control
                                                         type="hidden"
                                                         className="form-control"
-                                                        placeholder="Input name department"
+                                                        placeholder="Input name type"
                                                         style={{
                                                             color: "#0a2d3d",
                                                         }}
@@ -167,7 +131,7 @@ const EditDepartmentPage = (props: propsType) => {
                                                                 ? "is-invalid"
                                                                 : "")
                                                         }
-                                                        placeholder="Input name department"
+                                                        placeholder="Input name type"
                                                         style={{
                                                             color: "#0a2d3d",
                                                         }}
@@ -199,4 +163,4 @@ const EditDepartmentPage = (props: propsType) => {
     );
 };
 
-export default EditDepartmentPage;
+export default EditTypePage;
