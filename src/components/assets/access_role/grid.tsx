@@ -12,6 +12,8 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import LoaderTreeCircles from "../loaderTreeCircles";
 import Swal from "sweetalert2";
+import { getCookie } from "cookies-next";
+import { formatColumnTable, formatPageTitle } from "@/lib/customFunction";
 
 type propsType = {
     urlFetch: string;
@@ -57,21 +59,10 @@ const Grid = (props: propsType) => {
 
     // Satup Title Per-Page
     let pageTitle = String(pathName).split("/");
+    let userTenantId = getCookie("tenant_id");
 
     // Props
     const { urlFetch, urlDelete, columns, urlRoute } = props;
-
-    // Format Font UpperCase
-    let formatColumnTable: string[] = columns.map((column: any) => {
-        let data = column.toString();
-        let upper = data.slice(0, 1).toUpperCase();
-        let lower = data.slice(1).toLowerCase();
-        let formatColumn = upper + lower;
-        return formatColumn;
-    });
-
-    formatColumnTable.unshift("No");
-    formatColumnTable.push("Action");
 
     const fetchData = async (
         perPage: any,
@@ -90,6 +81,7 @@ const Grid = (props: propsType) => {
                     columns,
                     pagination,
                     sorting,
+                    userTenantId,
                 },
             });
 
@@ -159,7 +151,9 @@ const Grid = (props: propsType) => {
         <div className="table-responsive mt-3">
             <div className="card">
                 <div className="card-header">
-                    <h4 className="card-title">Data {pageTitle[2]}</h4>
+                    <h4 className="card-title">
+                        Data {formatPageTitle(pageTitle[2])}
+                    </h4>
                 </div>
                 <div className="card-body">
                     <div className="table-responsive">
@@ -218,56 +212,82 @@ const Grid = (props: propsType) => {
                             <table className="table table-bordered verticle-middle table-responsive-sm">
                                 <thead>
                                     <tr className="text-center">
-                                        {formatColumnTable.map(
+                                        {formatColumnTable(columns).map(
                                             (column: any, i: any) => (
                                                 <th
                                                     scope="col"
                                                     key={i}
                                                     className="text-nowrap"
                                                     onClick={() => {
-                                                        if (!sort) {
-                                                            let dataSort: any =
-                                                                ["asc", column];
-                                                            setSort(dataSort);
-                                                            fetchData(
-                                                                perPage,
-                                                                search,
-                                                                columns,
-                                                                pagination,
-                                                                dataSort
-                                                            );
-                                                        }
-
-                                                        if (sort[0] === "asc") {
-                                                            let dataSort: any =
-                                                                [
-                                                                    "desc",
-                                                                    column,
-                                                                ];
-                                                            setSort(dataSort);
-                                                            fetchData(
-                                                                perPage,
-                                                                search,
-                                                                columns,
-                                                                pagination,
-                                                                dataSort
-                                                            );
+                                                        if (
+                                                            column === "No" ||
+                                                            column ===
+                                                                "Office Name" ||
+                                                            column === "Action"
+                                                        ) {
+                                                            return;
                                                         } else {
-                                                            let dataSort: any =
-                                                                ["asc", column];
-                                                            setSort(dataSort);
-                                                            fetchData(
-                                                                perPage,
-                                                                search,
-                                                                columns,
-                                                                pagination,
-                                                                dataSort
-                                                            );
+                                                            if (!sort) {
+                                                                let dataSort: any =
+                                                                    [
+                                                                        "asc",
+                                                                        column,
+                                                                    ];
+                                                                setSort(
+                                                                    dataSort
+                                                                );
+                                                                fetchData(
+                                                                    perPage,
+                                                                    search,
+                                                                    columns,
+                                                                    pagination,
+                                                                    dataSort
+                                                                );
+                                                            }
+
+                                                            if (
+                                                                sort[0] ===
+                                                                "asc"
+                                                            ) {
+                                                                let dataSort: any =
+                                                                    [
+                                                                        "desc",
+                                                                        column,
+                                                                    ];
+                                                                setSort(
+                                                                    dataSort
+                                                                );
+                                                                fetchData(
+                                                                    perPage,
+                                                                    search,
+                                                                    columns,
+                                                                    pagination,
+                                                                    dataSort
+                                                                );
+                                                            } else {
+                                                                let dataSort: any =
+                                                                    [
+                                                                        "asc",
+                                                                        column,
+                                                                    ];
+                                                                setSort(
+                                                                    dataSort
+                                                                );
+                                                                fetchData(
+                                                                    perPage,
+                                                                    search,
+                                                                    columns,
+                                                                    pagination,
+                                                                    dataSort
+                                                                );
+                                                            }
                                                         }
                                                     }}
                                                 >
-                                                    {column}{" "}
+                                                    {formatPageTitle(column)}{" "}
                                                     {column != "No" &&
+                                                        column !=
+                                                            "Office Name" &&
                                                         column != "Action" &&
                                                         sort.length != 0 &&
                                                         sort[0] === "asc" &&
@@ -280,6 +300,8 @@ const Grid = (props: propsType) => {
                                                             />
                                                         )}
                                                     {column != "No" &&
+                                                        column !=
+                                                            "Office Name" &&
                                                         column != "Action" &&
                                                         sort.length != 0 &&
                                                         sort[0] === "desc" &&
@@ -303,7 +325,8 @@ const Grid = (props: propsType) => {
                                                 <td className="text-center">
                                                     {i + 1}
                                                 </td>
-                                                <td>{data.name}</td>
+                                                <td>{data.permission_name}</td>
+                                                <td>{data.office_name}</td>
                                                 <td className="text-nowrap text-center">
                                                     <FontAwesomeIcon
                                                         icon={faEdit}
