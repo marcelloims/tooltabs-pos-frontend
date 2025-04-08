@@ -116,7 +116,7 @@ const Grid = (props: propsType) => {
                         .delete(urlDelete + dataId)
                         .then((response) => {
                             Swal.fire({
-                                title: "Data " + pageTitle[2],
+                                title: "Data " + formatPageTitle(pageTitle[2]),
                                 text: response.data.message,
                                 icon: response.data.status,
                             }).then((result) => {

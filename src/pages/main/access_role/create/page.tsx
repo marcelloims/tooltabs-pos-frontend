@@ -283,11 +283,11 @@ const CreateAccessRolePage = () => {
                                                     >
                                                         select a Activation
                                                     </option>
-                                                    <option value="Active">
-                                                        Active
+                                                    <option value="write">
+                                                        Write
                                                     </option>
-                                                    <option value="In-active">
-                                                        In-Active
+                                                    <option value="read">
+                                                        Read
                                                     </option>
                                                 </Form.Select>
                                             </Form.Group>
