@@ -10,6 +10,7 @@ import "../../../../app/myStyle.css";
 import SelectedOffice from "@/components/assets/selectedOffice";
 import SelectedDepartmentPerPosition from "@/components/assets/selectedDepartmentPerPosition";
 import { formatPageTitle } from "@/lib/customFunction";
+import { log } from "node:console";
 
 interface Response {
     code: number;
@@ -17,10 +18,17 @@ interface Response {
     status: string;
 }
 
-const CreateAccessRolePage = () => {
+type propsType = {
+    accessroleId: string;
+};
+
+const EditAccessRolePage = (props: propsType) => {
     // for route
     const router = useRouter();
     const pathName = usePathname();
+
+    // destructuring props
+    const { accessroleId } = props;
 
     // Satup Title Per-Page
     let pageTitle = String(pathName).split("/");
@@ -29,6 +37,10 @@ const CreateAccessRolePage = () => {
     // this state
     const [loading, setLoading] = useState(false);
     const [fetchResponseMenu, setFetchResponseMenu] = useState<Response>();
+    const [id, setId] = useState("");
+    const [write, setWrite] = useState("");
+    const [read, setRead] = useState("");
+
     const [checkedList, setCheckedList] = useState([]);
     const [selectCase, setSelectCase] = useState("");
     const [validateSelectCase, setValidateSelectCase] = useState();
@@ -48,9 +60,68 @@ const CreateAccessRolePage = () => {
 
     const [name, setName] = useState("");
     const [validateName, setValidateName] = useState("");
+    const [checked, setChecked] = useState([]);
 
     const userEmail = getCookie("email");
     const userTenantId = getCookie("tenant_id");
+
+    const fetchEdit = async () => {
+        try {
+            setLoading(true);
+
+            const dataResponse = await axios.get(
+                `/access_role/edit/${accessroleId}`
+            );
+            setId(dataResponse.data.response.id);
+            setOffice(dataResponse.data.response.office_id);
+            setDepartmentPerPosition(
+                dataResponse.data.response.department_per_position_id
+            );
+            setName(dataResponse.data.response.name);
+            setWrite(dataResponse.data.response.write);
+            setRead(dataResponse.data.response.read);
+
+            if (
+                dataResponse.data.response.write === 1 &&
+                dataResponse.data.response.read === 0
+            ) {
+                setSelectCase("write");
+            }
+
+            if (
+                dataResponse.data.response.write === 0 &&
+                dataResponse.data.response.read === 1
+            ) {
+                setSelectCase("read");
+            }
+
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchSelectMenu = async () => {
+        try {
+            setLoading(true);
+
+            const dataResponse = await axios.get(
+                `/access_role/get_selected_menu/${accessroleId}`
+            );
+
+            let element = [];
+
+            dataResponse.data.response.map((menu: any, index: number) => {
+                element.push(String(menu.menu_id));
+            });
+
+            setCheckedList(element);
+
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const fetchOffice = async () => {
         try {
@@ -94,7 +165,8 @@ const CreateAccessRolePage = () => {
         e.preventDefault();
 
         await axios
-            .post("/access_role/store", {
+            .put("/access_role/update", {
+                id,
                 office_id,
                 department_per_position_id,
                 name,
@@ -145,11 +217,21 @@ const CreateAccessRolePage = () => {
             );
             setCheckedList(filteredList);
         }
+    };
 
-        console.log(checkedList);
+    const handleChecked = (menu_id: number) => {
+        for (let i = 0; i < checkedList.length; i++) {
+            let checkedTrue = checkedList[i] == menu_id && true;
+            if (checkedTrue) {
+                return checkedTrue;
+            }
+        }
     };
 
     useEffect(() => {}, [
+        id,
+        write,
+        read,
         checkedList,
         fetchResponseMenu,
         loading,
@@ -163,9 +245,12 @@ const CreateAccessRolePage = () => {
         selectCase,
         validateOffice,
         validateSelectCase,
+        checked,
     ]);
 
     useEffect(() => {
+        fetchEdit();
+        fetchSelectMenu();
         fetchDataMenu();
         fetchOffice();
         fetchDepartmentPerPosition();
@@ -179,7 +264,7 @@ const CreateAccessRolePage = () => {
                         <div className="card">
                             <div className="card-header">
                                 <strong>
-                                    Form add {splitPageTitle[0] + " "}
+                                    Form edit {splitPageTitle[0] + " "}
                                     {splitPageTitle[1] === undefined
                                         ? ""
                                         : splitPageTitle[1]}
@@ -294,7 +379,6 @@ const CreateAccessRolePage = () => {
                                             <h3 className="font-weight-bold text-nowrap col-12 mt-5 mb-5">
                                                 Configuration Access List*
                                             </h3>
-
                                             {fetchResponseMenu?.response.map(
                                                 (menu: any, i: any) => (
                                                     <Form.Group
@@ -316,6 +400,9 @@ const CreateAccessRolePage = () => {
                                                                         onChange={
                                                                             handleCheckbox
                                                                         }
+                                                                        checked={handleChecked(
+                                                                            menu.id
+                                                                        )}
                                                                     />
                                                                     <label>
                                                                         {" "}
@@ -347,4 +434,4 @@ const CreateAccessRolePage = () => {
     );
 };
 
-export default CreateAccessRolePage;
+export default EditAccessRolePage;

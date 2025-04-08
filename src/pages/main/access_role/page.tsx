@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 const AccessRolePage = () => {
     // State
     const [handlerClick, setAddHandlerClick] = useState("");
-    const [columns, setColumns] = useState(["name"]);
+    const [columns, setColumns] = useState(["permission_name", "office_name"]);
     const urlFetch = "/access_role/fetch";
     const urlDelete = "/access_role/delete/";
 
