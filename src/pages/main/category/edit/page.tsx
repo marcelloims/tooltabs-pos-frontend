@@ -32,6 +32,7 @@ const EditCategoryPage = (props: propsType) => {
     const [validateName, setValidateName] = useState("");
     const [validateCode, setValidateCode] = useState("");
     const userEmail = getCookie("email");
+    const userTenantId = getCookie("tenant_id");
 
     // Function
     const fetchEdit = async () => {
@@ -59,6 +60,7 @@ const EditCategoryPage = (props: propsType) => {
                 name,
                 code,
                 userEmail,
+                userTenantId,
             })
             .then((response) => {
                 Swal.fire({
@@ -118,7 +120,10 @@ const EditCategoryPage = (props: propsType) => {
                                                         }
                                                     />
                                                     <Form.Label>
-                                                        Name
+                                                        Name{" "}
+                                                        <span className="text-red">
+                                                            *
+                                                        </span>
                                                     </Form.Label>
                                                     {validateName && (
                                                         <p className="validation-custom">

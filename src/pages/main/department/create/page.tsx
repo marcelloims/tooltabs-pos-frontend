@@ -67,7 +67,12 @@ const CreateDepartmentPage = () => {
                                     <Form onSubmit={handleSubmit}>
                                         <div className="form-row">
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Code</Form.Label>
+                                                <Form.Label>
+                                                    Code{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateCode && (
                                                     <p className="validation-custom">
                                                         {validateCode}
@@ -92,7 +97,12 @@ const CreateDepartmentPage = () => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Name</Form.Label>
+                                                <Form.Label>
+                                                    Name{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateName && (
                                                     <p className="validation-custom">
                                                         {validateName}

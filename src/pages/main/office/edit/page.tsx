@@ -35,8 +35,8 @@ const EditOfficePage = (props: propsType) => {
     const [validateEmail, setValidateEmail] = useState("");
     const [validatePhone, setValidatePhone] = useState("");
     const [validateAddress, setValidateAddress] = useState("");
-    const userEmail     = getCookie("email");
-    const userTenantId  = getCookie("tenant_id");
+    const userEmail = getCookie("email");
+    const userTenantId = getCookie("tenant_id");
 
     // Function
     const fetchEdit = async () => {
@@ -64,7 +64,7 @@ const EditOfficePage = (props: propsType) => {
                 phone,
                 address,
                 userEmail,
-                userTenantId
+                userTenantId,
             })
             .then((response) => {
                 Swal.fire({
@@ -120,7 +120,12 @@ const EditOfficePage = (props: propsType) => {
                                                         )
                                                     }
                                                 />
-                                                <Form.Label>Name</Form.Label>
+                                                <Form.Label>
+                                                    Name{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateName && (
                                                     <p className="validation-custom">
                                                         {validateName}
@@ -145,7 +150,12 @@ const EditOfficePage = (props: propsType) => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Code</Form.Label>
+                                                <Form.Label>
+                                                    Code{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateCode && (
                                                     <p className="validation-custom">
                                                         {validateCode}
@@ -170,7 +180,12 @@ const EditOfficePage = (props: propsType) => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Email</Form.Label>
+                                                <Form.Label>
+                                                    Email{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateEmail && (
                                                     <p className="validation-custom">
                                                         {validateEmail}
@@ -196,7 +211,10 @@ const EditOfficePage = (props: propsType) => {
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
                                                 <Form.Label>
-                                                    Telphone
+                                                    Telphone{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
                                                 </Form.Label>
                                                 {validatePhone && (
                                                     <p className="validation-custom">
@@ -222,7 +240,12 @@ const EditOfficePage = (props: propsType) => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Address</Form.Label>
+                                                <Form.Label>
+                                                    Address{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateAddress && (
                                                     <p className="validation-custom">
                                                         {validateAddress}

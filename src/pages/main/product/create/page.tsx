@@ -241,7 +241,12 @@ const CreateProductPage = () => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Pcode <span className="text-red">*</span></Form.Label>
+                                                <Form.Label>
+                                                    Pcode{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validatePcode && (
                                                     <p className="validation-custom">
                                                         {validatePcode}
@@ -266,7 +271,12 @@ const CreateProductPage = () => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Name <span className="text-red">*</span></Form.Label>
+                                                <Form.Label>
+                                                    Name{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateName && (
                                                     <p className="validation-custom">
                                                         {validateName}
@@ -292,7 +302,7 @@ const CreateProductPage = () => {
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
                                                 <Form.Label>
-                                                    Description <span className="text-red">*</span>
+                                                    Description
                                                 </Form.Label>
                                                 {validateDescription && (
                                                     <p className="validation-custom">
@@ -318,7 +328,12 @@ const CreateProductPage = () => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Unit <span className="text-red">*</span></Form.Label>
+                                                <Form.Label>
+                                                    Unit{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateUnit && (
                                                     <p className="validation-custom">
                                                         {validateUnit}
@@ -540,112 +555,6 @@ const CreateProductPage = () => {
                                                         );
                                                     }}
                                                     ref={inputRef1}
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="form-group col-md-4">
-                                                <Form.Label>Image 2</Form.Label>
-                                                {image2 ? (
-                                                    <img
-                                                        src={URL.createObjectURL(
-                                                            image2
-                                                        )}
-                                                        style={{
-                                                            width: "300px",
-                                                            height: "300px",
-                                                        }}
-                                                        alt="image-2"
-                                                        onClick={
-                                                            handleImageClick2
-                                                        }
-                                                    />
-                                                ) : (
-                                                    <img
-                                                        src="/static/assets/images/foto-upload.jpg"
-                                                        alt="image-2"
-                                                        onClick={
-                                                            handleImageClick2
-                                                        }
-                                                    />
-                                                )}
-                                                <Form.Control
-                                                    type="file"
-                                                    style={{
-                                                        color: "#0a2d3d",
-                                                        display: "none",
-                                                    }}
-                                                    onChange={(event: any) => {
-                                                        const imageData =
-                                                            event.target
-                                                                .files[0];
-
-                                                        if (
-                                                            !imageData.type.match(
-                                                                "image.*"
-                                                            )
-                                                        ) {
-                                                            setImage2Value("");
-
-                                                            return;
-                                                        }
-                                                        setImage2(imageData);
-                                                        setImage2Value(
-                                                            imageData
-                                                        );
-                                                    }}
-                                                    ref={inputRef2}
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="form-group col-md-4">
-                                                <Form.Label>Image 3</Form.Label>
-                                                {image3 ? (
-                                                    <img
-                                                        src={URL.createObjectURL(
-                                                            image3
-                                                        )}
-                                                        style={{
-                                                            width: "300px",
-                                                            height: "300px",
-                                                        }}
-                                                        alt="image-3"
-                                                        onClick={
-                                                            handleImageClick3
-                                                        }
-                                                    />
-                                                ) : (
-                                                    <img
-                                                        src="/static/assets/images/foto-upload.jpg"
-                                                        alt="image-3"
-                                                        onClick={
-                                                            handleImageClick3
-                                                        }
-                                                    />
-                                                )}
-                                                <Form.Control
-                                                    type="file"
-                                                    style={{
-                                                        color: "#0a2d3d",
-                                                        display: "none",
-                                                    }}
-                                                    onChange={(event: any) => {
-                                                        const imageData =
-                                                            event.target
-                                                                .files[0];
-
-                                                        if (
-                                                            !imageData.type.match(
-                                                                "image.*"
-                                                            )
-                                                        ) {
-                                                            setImage3Value("");
-
-                                                            return;
-                                                        }
-                                                        setImage3(imageData);
-                                                        setImage3Value(
-                                                            imageData
-                                                        );
-                                                    }}
-                                                    ref={inputRef3}
                                                 />
                                             </Form.Group>
                                         </div>

@@ -37,10 +37,13 @@ const PosPage = () => {
     // ************* STATE *************
     const [fetchMenu, setFetchMenu] = useState<Response<ResponseFood>>();
     const [category_id, setCategoryId] = useState(1);
-    const [qtyOrder, setQtyOrder] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [fetchCategoryResponse, setFetchCategoryResponse] =
+        useState<Response<ResponseFood>>();
+    const [search, setSearch] = useState("");
 
     // Satup Variable
+    let tenantId = getCookie("tenant_id");
     let officeId = getCookie("office_id");
 
     // ************* FUNCTION *************
@@ -53,6 +56,24 @@ const PosPage = () => {
                 category_id,
             });
             setFetchMenu(dataResponse.data);
+
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchCategory = async () => {
+        try {
+            setLoading(true);
+
+            const dataResponse = await axios.get(`/pos/getCategory`, {
+                params: {
+                    tenantId,
+                    officeId,
+                },
+            });
+            setFetchCategoryResponse(dataResponse.data);
 
             setLoading(false);
         } catch (error) {
@@ -76,9 +97,28 @@ const PosPage = () => {
         }
     };
 
-    useEffect(() => {}, [loading, fetchMenu, category_id, qtyOrder]);
+    const searchMenu = async (keyword: string) => {
+        try {
+            setLoading(true);
+
+            const dataResponse = await axios.post(`/pos/searchFood`, {
+                keyword,
+                officeId,
+            });
+            setFetchMenu(dataResponse.data);
+
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
+        console.log(search, "test");
+    }, [loading, fetchMenu, category_id, fetchCategoryResponse, search]);
+
+    useEffect(() => {
+        fetchCategory();
         fetchFirstMenu();
     }, []);
     return (
@@ -87,7 +127,7 @@ const PosPage = () => {
                 <div className="content-body">
                     <div className="container-fluid">
                         <div className="row">
-                            <div className="col-8">
+                            <div className="col-7">
                                 <div className="row">
                                     <div className="col-lg-12">
                                         <div className="card">
@@ -97,47 +137,95 @@ const PosPage = () => {
                                                 </strong>
                                             </div>
                                             <div className="card-body">
-                                                <div className="col-6">
-                                                    <Form.Label>
-                                                        Category Menu
-                                                    </Form.Label>
-                                                    <Form.Select
-                                                        value={category_id}
-                                                        onChange={(
-                                                            event: any
-                                                        ) => {
-                                                            setCategoryId(
-                                                                event.target
-                                                                    .value
-                                                            );
-                                                            changeMenu(
-                                                                event.target
-                                                                    .value
-                                                            );
-                                                        }}
-                                                        style={{
-                                                            color: "#0a2d3d",
-                                                        }}
-                                                    >
-                                                        <option value="1">
-                                                            Food
-                                                        </option>
-                                                        <option value="2">
-                                                            Beverage
-                                                        </option>
-                                                        <option value="3">
-                                                            Jiuce
-                                                        </option>
-                                                        <option value="4">
-                                                            Dessert
-                                                        </option>
-                                                    </Form.Select>
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <Form.Group>
+                                                            <Form.Label>
+                                                                Category Menu
+                                                            </Form.Label>
+                                                            <Form.Select
+                                                                value={
+                                                                    category_id
+                                                                }
+                                                                onChange={(
+                                                                    event: any
+                                                                ) => {
+                                                                    setCategoryId(
+                                                                        event
+                                                                            .target
+                                                                            .value
+                                                                    );
+                                                                    changeMenu(
+                                                                        event
+                                                                            .target
+                                                                            .value
+                                                                    );
+                                                                }}
+                                                                className="mb-3"
+                                                                style={{
+                                                                    color: "#0a2d3d",
+                                                                }}
+                                                            >
+                                                                {fetchCategoryResponse?.response.map(
+                                                                    (
+                                                                        category,
+                                                                        i
+                                                                    ) => (
+                                                                        <option
+                                                                            key={
+                                                                                i
+                                                                            }
+                                                                            value={
+                                                                                category.id
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                category.name
+                                                                            }
+                                                                        </option>
+                                                                    )
+                                                                )}
+                                                            </Form.Select>
+                                                        </Form.Group>
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <Form.Group>
+                                                            <Form.Label>
+                                                                Search
+                                                            </Form.Label>
+                                                            <Form.Control
+                                                                type="text"
+                                                                className={
+                                                                    "bg-text-custom "
+                                                                }
+                                                                placeholder="Search your menu"
+                                                                style={{
+                                                                    color: "#0a2d3d",
+                                                                }}
+                                                                value={search}
+                                                                onChange={(
+                                                                    event: any
+                                                                ) => {
+                                                                    setSearch(
+                                                                        event
+                                                                            .target
+                                                                            .value
+                                                                    );
+                                                                    searchMenu(
+                                                                        event
+                                                                            .target
+                                                                            .value
+                                                                    );
+                                                                }}
+                                                            />
+                                                        </Form.Group>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row py-4">
+                                <div className="row py-2">
                                     {fetchMenu?.response.map((menu) => (
                                         <ItemCart
                                             key={menu.id}
@@ -150,7 +238,7 @@ const PosPage = () => {
                                     ))}
                                 </div>
                             </div>
-                            <div className="col-4">
+                            <div className="col-5">
                                 <CartPage />
                             </div>
                         </div>

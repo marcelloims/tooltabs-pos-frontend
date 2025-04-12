@@ -22,6 +22,7 @@ const CreateTypePage = () => {
     const [validateCode, setValidateCode] = useState("");
     const [validateName, setValidateName] = useState("");
     const userEmail = getCookie("email");
+    const userTenantId = getCookie("tenant_id");
 
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
@@ -30,6 +31,7 @@ const CreateTypePage = () => {
             .post("/type/store", {
                 name,
                 userEmail,
+                userTenantId,
             })
             .then((response) => {
                 Swal.fire({
@@ -61,7 +63,12 @@ const CreateTypePage = () => {
                                     <Form onSubmit={handleSubmit}>
                                         <div className="form-row">
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Name</Form.Label>
+                                                <Form.Label>
+                                                    Name{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateName && (
                                                     <p className="validation-custom">
                                                         {validateName}

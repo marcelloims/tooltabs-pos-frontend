@@ -32,7 +32,9 @@ const SelectedProduct = ({
 
     return (
         <div>
-            <Form.Label>Product</Form.Label>
+            <Form.Label>
+                Product <span className="text-red">*</span>
+            </Form.Label>
 
             {validateProduct && (
                 <p className="validation-custom">{validateProduct}</p>

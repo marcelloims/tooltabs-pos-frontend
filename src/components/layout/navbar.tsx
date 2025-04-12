@@ -1,14 +1,16 @@
 "use client";
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import axios from "../../lib/axios";
 import Swal from "sweetalert2";
 import { useRouter, usePathname } from "next/navigation";
-import { deleteCookie, getCookie } from "cookies-next";
+import { deleteCookie, getCookie, getCookies } from "cookies-next";
 
 const Navbar = () => {
     // For routing
     const router = useRouter();
     const pathName = usePathname();
+    const [userEmail, setUserEmail] = useState<any>("");
+    const [userName, setUserName] = useState<any>("");
 
     // Satup Title Per-Page
     let pageTitle = String(pathName).split("/");
@@ -39,6 +41,13 @@ const Navbar = () => {
                 console.log(error);
             });
     };
+
+    useEffect(() => {
+        let email = getCookie("email");
+        let user = getCookie("username");
+        setUserEmail(email);
+        setUserName(user);
+    }, [userEmail, userName]);
 
     return (
         <>
@@ -104,10 +113,10 @@ const Navbar = () => {
                                             ></i>
                                             <div className="header-info">
                                                 <span className="text-black">
-                                                    <strong>Username</strong>
+                                                    <strong>{userName}</strong>
                                                 </span>
                                                 <p className="fs-12 mb-0">
-                                                    Email User
+                                                    {userEmail}
                                                 </p>
                                             </div>
                                         </a>

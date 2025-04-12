@@ -26,7 +26,9 @@ const SelectedPosition = ({
 
     return (
         <div>
-            <Form.Label>Position</Form.Label>
+            <Form.Label>
+                Position <span className="text-red">*</span>
+            </Form.Label>
 
             {validatePosition && (
                 <p className="validation-custom">{validatePosition}</p>

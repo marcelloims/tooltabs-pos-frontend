@@ -10,6 +10,7 @@ import "../../../../app/myStyle.css";
 import SelectedCategori from "@/components/assets/selectedCategory";
 import SelectedType from "@/components/assets/selectedType";
 import SelectedActivation from "@/components/assets/selectedActivation";
+import { formatPageTitle } from "@/lib/customFunction";
 
 type propsType = {
     productId: string;
@@ -154,7 +155,7 @@ const EditProductPage = (props: propsType) => {
             })
             .then((response) => {
                 Swal.fire({
-                    title: "Data " + pageTitle[2],
+                    title: "Data " + formatPageTitle(pageTitle[2]),
                     text: response.data.message,
                     icon: response.data.status,
                 }).then((result) => {
@@ -304,7 +305,12 @@ const EditProductPage = (props: propsType) => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Pcode <span className="text-red">*</span></Form.Label>
+                                                <Form.Label>
+                                                    Pcode{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validatePcode && (
                                                     <p className="validation-custom">
                                                         {validatePcode}
@@ -329,7 +335,12 @@ const EditProductPage = (props: propsType) => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Name <span className="text-red">*</span></Form.Label>
+                                                <Form.Label>
+                                                    Name{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateName && (
                                                     <p className="validation-custom">
                                                         {validateName}
@@ -355,7 +366,7 @@ const EditProductPage = (props: propsType) => {
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
                                                 <Form.Label>
-                                                    Description <span className="text-red">*</span>
+                                                    Description{" "}
                                                 </Form.Label>
                                                 {validateDescription && (
                                                     <p className="validation-custom">
@@ -372,7 +383,11 @@ const EditProductPage = (props: propsType) => {
                                                     }
                                                     placeholder="Input code name"
                                                     style={{ color: "#0a2d3d" }}
-                                                    value={description}
+                                                    value={
+                                                        description
+                                                            ? description
+                                                            : ""
+                                                    }
                                                     onChange={(event) =>
                                                         setDescription(
                                                             event.target.value
@@ -381,7 +396,12 @@ const EditProductPage = (props: propsType) => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Unit <span className="text-red">*</span></Form.Label>
+                                                <Form.Label>
+                                                    Unit{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validateUnit && (
                                                     <p className="validation-custom">
                                                         {validateUnit}
@@ -422,9 +442,13 @@ const EditProductPage = (props: propsType) => {
                                                             ? "is-invalid"
                                                             : "")
                                                     }
-                                                    placeholder="Input code brand code"
+                                                    placeholder="Input code name"
                                                     style={{ color: "#0a2d3d" }}
-                                                    value={brand_code}
+                                                    value={
+                                                        brand_code
+                                                            ? brand_code
+                                                            : ""
+                                                    }
                                                     onChange={(event) =>
                                                         setBrandCode(
                                                             event.target.value
@@ -536,7 +560,7 @@ const EditProductPage = (props: propsType) => {
                                                     }
                                                     placeholder="Input code tax"
                                                     style={{ color: "#0a2d3d" }}
-                                                    value={tax}
+                                                    value={tax ? tax : ""}
                                                     onChange={(event) =>
                                                         setTax(
                                                             event.target.value
@@ -618,130 +642,6 @@ const EditProductPage = (props: propsType) => {
                                                         );
                                                     }}
                                                     ref={inputRef1}
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="form-group col-md-4">
-                                                <Form.Label>Image 2</Form.Label>
-                                                {image2 ? (
-                                                    <img
-                                                        src={URL.createObjectURL(
-                                                            image2
-                                                        )}
-                                                        style={{
-                                                            width: "300px",
-                                                            height: "300px",
-                                                        }}
-                                                        alt="image-2"
-                                                        onClick={
-                                                            handleImageClick2
-                                                        }
-                                                    />
-                                                ) : (
-                                                    <img
-                                                        src={
-                                                            image2Value
-                                                                ? public_url +
-                                                                  image2Value
-                                                                : "/static/assets/images/foto-upload.jpg"
-                                                        }
-                                                        style={{
-                                                            width: "300px",
-                                                            height: "300px",
-                                                        }}
-                                                        alt="image-2"
-                                                        onClick={
-                                                            handleImageClick2
-                                                        }
-                                                    />
-                                                )}
-                                                <Form.Control
-                                                    type="file"
-                                                    style={{
-                                                        color: "#0a2d3d",
-                                                        display: "none",
-                                                    }}
-                                                    onChange={(event: any) => {
-                                                        const imageData =
-                                                            event.target
-                                                                .files[0];
-
-                                                        if (
-                                                            !imageData.type.match(
-                                                                "image.*"
-                                                            )
-                                                        ) {
-                                                            setImage2Value("");
-
-                                                            return;
-                                                        }
-                                                        setImage2(imageData);
-                                                        setImage2Value(
-                                                            imageData
-                                                        );
-                                                    }}
-                                                    ref={inputRef2}
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="form-group col-md-4">
-                                                <Form.Label>Image 3</Form.Label>
-                                                {image3 ? (
-                                                    <img
-                                                        src={URL.createObjectURL(
-                                                            image3
-                                                        )}
-                                                        style={{
-                                                            width: "300px",
-                                                            height: "300px",
-                                                        }}
-                                                        alt="image-3"
-                                                        onClick={
-                                                            handleImageClick3
-                                                        }
-                                                    />
-                                                ) : (
-                                                    <img
-                                                        src={
-                                                            image3Value
-                                                                ? public_url +
-                                                                  image3Value
-                                                                : "/static/assets/images/foto-upload.jpg"
-                                                        }
-                                                        style={{
-                                                            width: "300px",
-                                                            height: "300px",
-                                                        }}
-                                                        alt="image-3"
-                                                        onClick={
-                                                            handleImageClick3
-                                                        }
-                                                    />
-                                                )}
-                                                <Form.Control
-                                                    type="file"
-                                                    style={{
-                                                        color: "#0a2d3d",
-                                                        display: "none",
-                                                    }}
-                                                    onChange={(event: any) => {
-                                                        const imageData =
-                                                            event.target
-                                                                .files[0];
-
-                                                        if (
-                                                            !imageData.type.match(
-                                                                "image.*"
-                                                            )
-                                                        ) {
-                                                            setImage3Value("");
-
-                                                            return;
-                                                        }
-                                                        setImage3(imageData);
-                                                        setImage3Value(
-                                                            imageData
-                                                        );
-                                                    }}
-                                                    ref={inputRef3}
                                                 />
                                             </Form.Group>
                                         </div>

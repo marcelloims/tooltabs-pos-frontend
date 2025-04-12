@@ -309,7 +309,10 @@ const EditAccessRolePage = (props: propsType) => {
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-4">
                                                 <Form.Label>
-                                                    Role Name
+                                                    Role Name{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
                                                 </Form.Label>
                                                 {validateName && (
                                                     <p className="validation-custom">
@@ -336,7 +339,10 @@ const EditAccessRolePage = (props: propsType) => {
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-4 ">
                                                 <Form.Label>
-                                                    Option Case
+                                                    Option Case{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
                                                 </Form.Label>
                                                 {validateSelectCase && (
                                                     <p className="validation-custom">

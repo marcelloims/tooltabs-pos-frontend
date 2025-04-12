@@ -32,7 +32,9 @@ const SelectedOffice = ({
 
     return (
         <div>
-            <Form.Label>Office</Form.Label>
+            <Form.Label>
+                Office <span className="text-red">*</span>
+            </Form.Label>
 
             {validateOffice && (
                 <p className="validation-custom">{validateOffice}</p>
@@ -52,7 +54,7 @@ const SelectedOffice = ({
                     style={{ color: "#0a2d3d" }}
                 >
                     <option value="DEFAULT" disabled>
-                        select a Office
+                        select a Office <span className="text-red">*</span>
                     </option>
                     {dataOffice?.response?.map((office: any, i: any) => (
                         <option key={i} value={office.id}>

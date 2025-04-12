@@ -32,7 +32,9 @@ const SelectedDepartmentPerPosition = ({
 
     return (
         <div>
-            <Form.Label>Department Per Position</Form.Label>
+            <Form.Label>
+                Department Per Position <span className="text-red">*</span>
+            </Form.Label>
 
             {validateDepartmentPerPosition && (
                 <p className="validation-custom">

@@ -211,7 +211,12 @@ const CreateProductPerOfficePage = () => {
                                                 />
                                             </Form.Group>
                                             <Form.Group className="form-group col-md-6">
-                                                <Form.Label>Price</Form.Label>
+                                                <Form.Label>
+                                                    Price{" "}
+                                                    <span className="text-red">
+                                                        *
+                                                    </span>
+                                                </Form.Label>
                                                 {validatePrice && (
                                                     <p className="validation-custom">
                                                         {validatePrice}

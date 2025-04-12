@@ -26,7 +26,9 @@ const SelectedDepartment = ({
 
     return (
         <div>
-            <Form.Label>Department</Form.Label>
+            <Form.Label>
+                Department <span className="text-red">*</span>
+            </Form.Label>
 
             {validateDepartment && (
                 <p className="validation-custom">{validateDepartment}</p>

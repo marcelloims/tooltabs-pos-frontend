@@ -103,7 +103,10 @@ const EditPositionPage = (props: propsType) => {
                                             <div className="form-row">
                                                 <Form.Group className="form-group col-md-6">
                                                     <Form.Label>
-                                                        Code
+                                                        Code{" "}
+                                                        <span className="text-red">
+                                                            *
+                                                        </span>
                                                     </Form.Label>
                                                     {validateCode && (
                                                         <p className="validation-custom">
@@ -148,7 +151,10 @@ const EditPositionPage = (props: propsType) => {
                                                         }
                                                     />
                                                     <Form.Label>
-                                                        Name
+                                                        Name{" "}
+                                                        <span className="text-red">
+                                                            *
+                                                        </span>
                                                     </Form.Label>
                                                     {validateName && (
                                                         <p className="validation-custom">

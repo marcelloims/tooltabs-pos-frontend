@@ -31,7 +31,9 @@ const SelectedGrade = ({
 
     return (
         <div>
-            <Form.Label>Grade</Form.Label>
+            <Form.Label>
+                Grade <span className="text-red">*</span>
+            </Form.Label>
 
             {validateGrade && (
                 <p className="validation-custom">{validateGrade}</p>
